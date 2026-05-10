@@ -253,15 +253,68 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
   background: var(--bg); border: 0.5px solid var(--border2);
   border-radius: var(--rlg); padding: 11px 14px;
   width: 172px; cursor: pointer; transition: all 0.15s;
-  flex-shrink: 0;
+  flex-shrink: 0; position: relative;
 }
 .node:hover { border-color: var(--border3); transform: translateY(-1px); }
-.node.sel { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(37,99,235,0.12); }
+.node.sel { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(77,158,255,0.15), 0 0 12px rgba(77,158,255,0.08); }
 .node.n-decision { border-color: var(--blue); }
 .node.n-risk { border-color: var(--red); }
 .node.n-assumption { border-color: var(--amber); }
 .node.n-opportunity { border-color: var(--green); }
 .node.n-done { opacity: 0.55; }
+
+/* ── LIFECYCLE STATES ── */
+.node.st-exploring { border-style: dashed; }
+.node.st-debated { border-color: var(--amber); box-shadow: 0 0 0 1px rgba(255,184,48,0.15); }
+.node.st-blocked { border-color: var(--red); opacity: 0.75; }
+.node.st-blocked::after { content:''; position:absolute; top:0; left:0; right:0; bottom:0; border-radius: var(--rlg); background: repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,87,87,0.04) 5px, rgba(255,87,87,0.04) 10px); pointer-events:none; }
+.node.st-validated { border-color: var(--green); }
+.node.st-committed { border-color: var(--green); background: rgba(61,218,122,0.04); }
+.node.st-archived { opacity: 0.35; filter: grayscale(0.6); }
+
+/* ── ACTIVE DISCUSSION PULSE (glow on edges for hot nodes) ── */
+.node.hot-debate {
+  animation: hotglow 2.5s ease-in-out infinite;
+}
+@keyframes hotglow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(255,184,48,0.3); }
+  50% { box-shadow: 0 0 0 1px rgba(255,184,48,0.3), 0 0 16px rgba(255,184,48,0.2); }
+}
+.node.ai-recommended {
+  animation: airecglow 3s ease-in-out infinite;
+}
+@keyframes airecglow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(77,158,255,0.25); }
+  50% { box-shadow: 0 0 0 1px rgba(77,158,255,0.25), 0 0 18px rgba(77,158,255,0.15); }
+}
+
+/* ── NODE WEIGHT SCALING (strategic importance) ── */
+.node.weight-xl { width: 196px; }
+.node.weight-sm { width: 150px; opacity: 0.8; }
+
+/* ── STALE INDICATOR ── */
+.node.stale { opacity: 0.5; filter: saturate(0.4); }
+.node.stale .node-title { color: var(--t3); }
+
+/* ── CONFIDENCE BAR ── */
+.node-confidence { display: flex; align-items: center; gap: 5px; margin-top: 7px; }
+.conf-label { font-size: 9px; color: var(--t3); text-transform: uppercase; letter-spacing: 0.05em; flex-shrink: 0; }
+.conf-bar { flex: 1; height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
+.conf-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+
+/* ── NODE META FOOTER ── */
+.node-meta-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; padding-top: 5px; border-top: 0.5px solid var(--border); }
+.node-meta-item { font-size: 9.5px; color: var(--t3); display: flex; align-items: center; gap: 2px; }
+.node-meta-item i { font-size: 10px; }
+
+/* ── LIFECYCLE BADGE ── */
+.node-lifecycle { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; padding: 1.5px 5px; border-radius: 3px; }
+.lc-exploring { background: var(--bg4); color: var(--t3); }
+.lc-debated { background: var(--amber-bg); color: var(--amber-t); }
+.lc-blocked { background: var(--red-bg); color: var(--red-t); }
+.lc-validated { background: var(--green-bg); color: var(--green-t); }
+.lc-committed { background: var(--green-bg); color: var(--green-t); }
+
 .node-type-row { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
 .node-type-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
 .node-type-label { font-size: 9.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
@@ -271,7 +324,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .ntag { font-size: 10px; font-weight: 500; padding: 2px 6px; border-radius: 10px; }
 
 .map-detail {
-  width: 248px; flex-shrink: 0;
+  width: 272px; flex-shrink: 0;
   border-left: 0.5px solid var(--border);
   background: var(--bg);
   display: flex; flex-direction: column; overflow: hidden;
@@ -291,6 +344,45 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .risk-row { display: flex; gap: 6px; font-size: 12px; color: var(--t2); align-items: flex-start; padding: 6px 0; border-bottom: 0.5px solid var(--border); line-height: 1.4; }
 .risk-row:last-child { border-bottom: none; }
 .risk-row i { flex-shrink: 0; font-size: 13px; margin-top: 1px; }
+
+/* ── STRATEGIC INSPECTOR COMPONENTS ── */
+.inspector-header { padding: 12px 14px 10px; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
+.inspector-title { font-size: 12.5px; font-weight: 500; color: var(--t1); margin-bottom: 2px; }
+.inspector-subtitle { font-size: 11px; color: var(--t3); }
+
+/* relationship context */
+.impact-node { display: flex; align-items: center; gap: 7px; padding: 5px 0; font-size: 12px; color: var(--t2); border-bottom: 0.5px solid var(--border); cursor: pointer; transition: color 0.12s; }
+.impact-node:last-child { border-bottom: none; }
+.impact-node:hover { color: var(--t1); }
+.impact-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.impact-rel { font-size: 10px; color: var(--t3); margin-left: auto; }
+
+/* history intel */
+.history-item { padding: 7px 9px; border-radius: var(--r); background: var(--bg2); border: 0.5px solid var(--border); margin-bottom: 5px; }
+.history-item-label { font-size: 10px; color: var(--t3); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
+.history-item-text { font-size: 11.5px; color: var(--t2); line-height: 1.4; }
+.history-item-source { font-size: 10px; color: var(--t3); margin-top: 3px; }
+
+/* team dynamics */
+.team-member { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-bottom: 0.5px solid var(--border); }
+.team-member:last-child { border-bottom: none; }
+.tm-avatar { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; flex-shrink: 0; }
+.tm-body { flex: 1; }
+.tm-name { font-size: 11.5px; font-weight: 500; color: var(--t1); }
+.tm-stance { font-size: 11px; color: var(--t2); line-height: 1.35; }
+.tm-stance-badge { font-size: 9.5px; font-weight: 600; padding: 1px 5px; border-radius: 3px; margin-right: 4px; }
+.stance-supports { background: rgba(61,218,122,0.15); color: var(--green-t); }
+.stance-concern { background: rgba(255,184,48,0.15); color: var(--amber-t); }
+.stance-blocks { background: rgba(255,87,87,0.15); color: var(--red-t); }
+
+/* evidence badge */
+.evidence-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 4px; padding: 2px 7px; font-size: 10.5px; color: var(--t2); cursor: pointer; transition: all 0.12s; }
+.evidence-badge:hover { border-color: var(--blue); color: var(--blue-t); }
+.evidence-badge i { font-size: 11px; }
+
+/* kpi impact pills */
+.kpi-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 4px; }
+.kpi-pill { font-size: 10px; padding: 2px 7px; border-radius: 10px; border: 0.5px solid var(--border2); color: var(--t3); }
 
 /* transcript drawer inside map */
 .transcript-drawer {
@@ -328,6 +420,26 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .ai-send { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; padding: 7px 12px; border-radius: var(--r); border: none; background: var(--t1); color: var(--bg); cursor: pointer; font-family: var(--font); transition: opacity 0.12s; white-space: nowrap; }
 .ai-send:hover { opacity: 0.85; }
 .ai-send i { font-size: 13px; }
+
+/* ── TIMELINE SCRUBBER / DECISION REPLAY ── */
+.map-timeline {
+  height: 42px; flex-shrink: 0;
+  border-bottom: 0.5px solid var(--border);
+  background: var(--bg2);
+  display: flex; align-items: center; padding: 0 14px; gap: 10px;
+}
+.timeline-label { font-size: 10.5px; color: var(--t3); white-space: nowrap; display: flex; align-items: center; gap: 5px; }
+.timeline-label i { font-size: 13px; }
+.timeline-track { flex: 1; height: 4px; background: var(--bg4); border-radius: 2px; position: relative; cursor: pointer; }
+.timeline-fill { height: 100%; background: linear-gradient(90deg, var(--blue) 0%, var(--cyan) 100%); border-radius: 2px; width: 100%; transition: width 0.3s; }
+.timeline-thumb { position: absolute; right: -1px; top: -5px; width: 14px; height: 14px; border-radius: 50%; background: var(--t1); border: 2px solid var(--bg2); cursor: grab; }
+.timeline-markers { position: absolute; top: 8px; left: 0; right: 0; display: flex; justify-content: space-between; pointer-events: none; }
+.timeline-mark { width: 1px; height: 5px; background: var(--border2); }
+.timeline-date { font-size: 10px; font-family: var(--mono); color: var(--t3); white-space: nowrap; }
+.timeline-replay-btn { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; padding: 4px 9px; border-radius: var(--r); border: 0.5px solid var(--border2); background: transparent; color: var(--t2); cursor: pointer; font-family: var(--font); white-space: nowrap; transition: all 0.12s; }
+.timeline-replay-btn:hover { background: var(--bg3); color: var(--t1); }
+.timeline-replay-btn i { font-size: 12px; }
+.timeline-replay-btn.active { background: var(--blue-bg); border-color: var(--blue); color: var(--blue-t); }
 
 /* ════════════════════════════════
    PANEL: MEETING VIEW
@@ -723,12 +835,28 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
         <button class="topbar-btn"><i class="ti ti-share"></i> Share</button>
         <button class="topbar-btn primary" onclick="alert('AI generating decision pathway...')"><i class="ti ti-sparkles"></i> Generate pathway</button>
       </div>
+      <div class="map-timeline">
+        <div class="timeline-label"><i class="ti ti-history"></i> Decision timeline</div>
+        <div class="timeline-track" id="timeline-track" onclick="scrubTimeline(event, this)">
+          <div class="timeline-fill" id="timeline-fill"></div>
+          <div class="timeline-thumb" id="timeline-thumb"></div>
+        </div>
+        <div class="timeline-date" id="timeline-date">Now</div>
+        <button class="timeline-replay-btn" id="replay-btn" onclick="toggleReplay(this)"><i class="ti ti-player-play"></i> Replay</button>
+      </div>
       <div class="map-toolbar">
         <button class="map-filter-btn on">All</button>
         <button class="map-filter-btn"><i class="ti ti-circle-dot" style="color:var(--blue)"></i> Decisions</button>
         <button class="map-filter-btn"><i class="ti ti-alert-triangle" style="color:var(--amber)"></i> Assumptions</button>
         <button class="map-filter-btn"><i class="ti ti-x-mark" style="color:var(--red)"></i> Risks</button>
-        <div style="margin-left:auto;display:flex;gap:6px;">
+        <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+          <div style="display:flex;gap:5px;align-items:center;padding-right:8px;border-right:0.5px solid var(--border)">
+            <span style="font-size:9.5px;color:var(--t3);text-transform:uppercase;letter-spacing:0.06em">States:</span>
+            <span class="node-lifecycle lc-exploring">exploring</span>
+            <span class="node-lifecycle lc-debated">debated</span>
+            <span class="node-lifecycle lc-blocked">blocked</span>
+            <span class="node-lifecycle lc-validated">validated</span>
+          </div>
           <button class="map-filter-btn"><i class="ti ti-zoom-in"></i></button>
           <button class="map-filter-btn"><i class="ti ti-zoom-out"></i></button>
           <button class="map-filter-btn"><i class="ti ti-arrows-maximize"></i></button>
@@ -739,20 +867,34 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
           <div class="map-canvas">
             <div class="node-tree">
               <div class="node-row">
-                <div class="node n-done" onclick="selectNode('origin')">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--t3)"></div><span class="node-type-label" style="color:var(--t3)">Origin</span></div>
+                <div class="node n-done stale" onclick="selectNode('origin')" id="node-origin">
+                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--t3)"></div><span class="node-type-label" style="color:var(--t3)">Origin</span><span class="node-lifecycle lc-archived" style="margin-left:auto">archived</span></div>
                   <div class="node-title">Q2 revenue miss</div>
                   <div class="node-sub">3/5 exit interviews cite pricing confusion</div>
                   <div class="node-tags"><span class="ntag" style="background:var(--bg3);color:var(--t3)">May 2025</span></div>
+                  <div class="node-meta-row">
+                    <span class="node-meta-item"><i class="ti ti-link"></i> 1 child</span>
+                    <span class="evidence-badge" onclick="event.stopPropagation(); alert('5 meeting signals generated this node')"><i class="ti ti-message-2"></i> 5 signals</span>
+                  </div>
                 </div>
               </div>
               <div class="n-connector"></div>
               <div class="node-row">
-                <div class="node n-decision sel" id="node-decision1" onclick="selectNode('decision1')">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--blue)"></div><span class="node-type-label" style="color:var(--blue-t)">Decision</span></div>
+                <div class="node n-decision sel weight-xl hot-debate" id="node-decision1" onclick="selectNode('decision1')">
+                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--blue)"></div><span class="node-type-label" style="color:var(--blue-t)">Decision</span><span class="node-lifecycle lc-debated" style="margin-left:auto">debated</span></div>
                   <div class="node-title">Restructure pricing tiers</div>
                   <div class="node-sub">Feature-gated → usage-based</div>
                   <div class="node-tags"><span class="ntag" style="background:var(--blue-bg);color:var(--blue-t)">Open</span><span class="ntag" style="background:var(--amber-bg);color:var(--amber-t)">High impact</span></div>
+                  <div class="node-confidence">
+                    <span class="conf-label">AI conf.</span>
+                    <div class="conf-bar"><div class="conf-fill" style="width:62%;background:var(--amber)"></div></div>
+                    <span style="font-size:9.5px;color:var(--amber-t);font-family:var(--mono)">62%</span>
+                  </div>
+                  <div class="node-meta-row">
+                    <span class="node-meta-item"><i class="ti ti-users"></i> 3</span>
+                    <span class="node-meta-item"><i class="ti ti-git-branch"></i> 3 opts</span>
+                    <span class="evidence-badge" onclick="event.stopPropagation(); alert('Generated from 12 meeting signals across 3 meetings')"><i class="ti ti-message-2"></i> 12</span>
+                  </div>
                 </div>
               </div>
               <div class="n-branch">
@@ -761,72 +903,134 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
                 <div class="n-branch-arm"></div>
               </div>
               <div class="node-row">
-                <div class="node n-opportunity" onclick="selectNode('opt-a')">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--green)"></div><span class="node-type-label" style="color:var(--green-t)">Option A</span></div>
+                <div class="node n-opportunity weight-sm" onclick="selectNode('opt-a')">
+                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--green)"></div><span class="node-type-label" style="color:var(--green-t)">Option A</span><span class="node-lifecycle lc-exploring" style="margin-left:auto">exploring</span></div>
                   <div class="node-title">Seat-based + overages</div>
                   <div class="node-sub">Keep seats, add usage caps</div>
                   <div class="node-tags"><span class="ntag" style="background:var(--green-bg);color:var(--green-t)">Low risk</span></div>
+                  <div class="node-confidence">
+                    <span class="conf-label">AI conf.</span>
+                    <div class="conf-bar"><div class="conf-fill" style="width:34%;background:var(--green)"></div></div>
+                    <span style="font-size:9.5px;color:var(--green-t);font-family:var(--mono)">34%</span>
+                  </div>
+                  <div class="node-meta-row">
+                    <span class="node-meta-item"><i class="ti ti-users"></i> 1 supporter</span>
+                    <span class="evidence-badge" onclick="event.stopPropagation();"><i class="ti ti-message-2"></i> 3</span>
+                  </div>
                 </div>
-                <div class="node n-decision" onclick="selectNode('opt-b')">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--blue)"></div><span class="node-type-label" style="color:var(--blue-t)">Option B</span></div>
+                <div class="node n-decision ai-recommended weight-xl" onclick="selectNode('opt-b')">
+                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--blue)"></div><span class="node-type-label" style="color:var(--blue-t)">Option B</span><span class="node-lifecycle lc-validated" style="margin-left:auto">validated</span></div>
                   <div class="node-title">Pure usage-based</div>
                   <div class="node-sub">Credits model, consume as you go</div>
                   <div class="node-tags"><span class="ntag" style="background:var(--blue-bg);color:var(--blue-t)">AI rec.</span></div>
+                  <div class="node-confidence">
+                    <span class="conf-label">AI conf.</span>
+                    <div class="conf-bar"><div class="conf-fill" style="width:78%;background:var(--blue)"></div></div>
+                    <span style="font-size:9.5px;color:var(--blue-t);font-family:var(--mono)">78%</span>
+                  </div>
+                  <div class="node-meta-row">
+                    <span class="node-meta-item"><i class="ti ti-users"></i> 2 support</span>
+                    <span class="evidence-badge" onclick="event.stopPropagation(); alert('Generated from 9 meeting signals')"><i class="ti ti-message-2"></i> 9</span>
+                  </div>
                 </div>
-                <div class="node n-risk" onclick="selectNode('opt-c')">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--red)"></div><span class="node-type-label" style="color:var(--red-t)">Option C</span></div>
+                <div class="node n-risk weight-sm" onclick="selectNode('opt-c')">
+                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--red)"></div><span class="node-type-label" style="color:var(--red-t)">Option C</span><span class="node-lifecycle lc-blocked" style="margin-left:auto">blocked</span></div>
                   <div class="node-title">Value-based pricing</div>
                   <div class="node-sub">% of customer outcome</div>
                   <div class="node-tags"><span class="ntag" style="background:var(--red-bg);color:var(--red-t)">High risk</span></div>
+                  <div class="node-confidence">
+                    <span class="conf-label">AI conf.</span>
+                    <div class="conf-bar"><div class="conf-fill" style="width:18%;background:var(--red)"></div></div>
+                    <span style="font-size:9.5px;color:var(--red-t);font-family:var(--mono)">18%</span>
+                  </div>
+                  <div class="node-meta-row">
+                    <span class="node-meta-item"><i class="ti ti-alert-triangle"></i> infra gap</span>
+                    <span class="evidence-badge"><i class="ti ti-message-2"></i> 2</span>
+                  </div>
                 </div>
               </div>
               <div class="n-connector"></div>
               <div class="node-row" style="gap:12px">
-                <div class="node n-assumption" onclick="selectNode('assumption1')" style="width:190px">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--amber)"></div><span class="node-type-label" style="color:var(--amber-t)">Assumption</span></div>
+                <div class="node n-assumption hot-debate" onclick="selectNode('assumption1')" style="width:190px" id="node-assumption1">
+                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--amber)"></div><span class="node-type-label" style="color:var(--amber-t)">Assumption</span><span class="node-lifecycle lc-debated" style="margin-left:auto">debated</span></div>
                   <div class="node-title">SMB accepts metered billing</div>
                   <div class="node-sub">Unvalidated — needs survey</div>
                   <div class="node-tags"><span class="ntag" style="background:var(--amber-bg);color:var(--amber-t)">Unverified</span><span class="ntag" style="background:var(--red-bg);color:var(--red-t)">Critical</span></div>
+                  <div class="node-confidence">
+                    <span class="conf-label">Evidence</span>
+                    <div class="conf-bar"><div class="conf-fill" style="width:20%;background:var(--amber)"></div></div>
+                    <span style="font-size:9.5px;color:var(--amber-t);font-family:var(--mono)">weak</span>
+                  </div>
+                  <div class="node-meta-row">
+                    <span class="node-meta-item"><i class="ti ti-users"></i> 2 debating</span>
+                    <span class="evidence-badge"><i class="ti ti-message-2"></i> 4</span>
+                  </div>
                 </div>
-                <div class="node n-assumption" onclick="selectNode('assumption2')" style="width:190px">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--amber)"></div><span class="node-type-label" style="color:var(--amber-t)">Assumption</span></div>
+                <div class="node n-assumption st-blocked" onclick="selectNode('assumption2')" style="width:190px" id="node-assumption2">
+                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--amber)"></div><span class="node-type-label" style="color:var(--amber-t)">Assumption</span><span class="node-lifecycle lc-blocked" style="margin-left:auto">blocked</span></div>
                   <div class="node-title">Engineering ships in 6 weeks</div>
                   <div class="node-sub">James flagged billing infra risk</div>
                   <div class="node-tags"><span class="ntag" style="background:var(--red-bg);color:var(--red-t)">Likely false</span></div>
+                  <div class="node-confidence">
+                    <span class="conf-label">Evidence</span>
+                    <div class="conf-bar"><div class="conf-fill" style="width:8%;background:var(--red)"></div></div>
+                    <span style="font-size:9.5px;color:var(--red-t);font-family:var(--mono)">disproved</span>
+                  </div>
+                  <div class="node-meta-row">
+                    <span class="node-meta-item" style="color:var(--red-t)"><i class="ti ti-alert-triangle"></i> D-16 blocked</span>
+                    <span class="evidence-badge"><i class="ti ti-message-2"></i> 6</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Detail panel -->
+        <!-- Detail panel / Strategic Inspector -->
         <div class="map-detail">
+          <div class="inspector-header">
+            <div class="inspector-title" id="detail-title">Restructure pricing tiers</div>
+            <div class="inspector-subtitle">
+              <span id="detail-owner" style="color:var(--t2)">Sarah K.</span>
+              <span style="margin:0 5px">·</span>
+              <span style="font-family:var(--mono);font-size:10.5px">Updated today, 9:14 AM</span>
+            </div>
+          </div>
           <div class="map-detail-tabs">
             <button class="md-tab active" onclick="switchDetailTab('detail', this)">Detail</button>
+            <button class="md-tab" onclick="switchDetailTab('inspector', this)">Inspector</button>
             <button class="md-tab" onclick="switchDetailTab('risks', this)">Risks</button>
             <button class="md-tab" onclick="switchDetailTab('transcript', this)">Live <span style="font-size:9px;background:var(--red-bg);color:var(--red-t);padding:1px 4px;border-radius:4px;margin-left:2px;">●</span></button>
           </div>
           <div class="md-body" id="md-detail-body">
             <div class="md-section">
-              <div class="md-section-label">Node</div>
-              <div class="md-value" id="detail-title">Restructure pricing tiers</div>
-            </div>
-            <div class="md-divider"></div>
-            <div class="md-section">
               <div class="md-section-label">Context</div>
               <div class="md-value" id="detail-context">Triggered by Q2 miss. Three exit interviews cited pricing confusion. Exec alignment partial. Engineering capacity unclear.</div>
             </div>
+            <div class="md-divider"></div>
             <div class="md-section">
-              <div class="md-section-label">Owner</div>
-              <div class="md-value" id="detail-owner">Sarah K.</div>
-            </div>
-            <div class="md-section">
-              <div class="md-section-label">Updated</div>
-              <div class="md-value">Today, 9:14 AM</div>
+              <div class="md-section-label">Confidence</div>
+              <div style="display:flex;flex-direction:column;gap:5px;margin-top:4px">
+                <div style="display:flex;align-items:center;gap:7px">
+                  <span style="font-size:10.5px;color:var(--t3);width:80px">AI confidence</span>
+                  <div class="conf-bar" style="flex:1;height:4px"><div class="conf-fill" style="width:62%;background:var(--amber)"></div></div>
+                  <span style="font-size:10.5px;color:var(--amber-t);font-family:var(--mono);width:28px">62%</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:7px">
+                  <span style="font-size:10.5px;color:var(--t3);width:80px">Stakeholder align.</span>
+                  <div class="conf-bar" style="flex:1;height:4px"><div class="conf-fill" style="width:45%;background:var(--red)"></div></div>
+                  <span style="font-size:10.5px;color:var(--red-t);font-family:var(--mono);width:28px">45%</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:7px">
+                  <span style="font-size:10.5px;color:var(--t3);width:80px">Evidence density</span>
+                  <div class="conf-bar" style="flex:1;height:4px"><div class="conf-fill" style="width:74%;background:var(--blue)"></div></div>
+                  <span style="font-size:10.5px;color:var(--blue-t);font-family:var(--mono);width:28px">74%</span>
+                </div>
+              </div>
             </div>
             <div class="md-divider"></div>
             <div class="md-section">
-              <div class="md-section-label">AI questions</div>
+              <div class="md-section-label" style="margin-bottom:6px">AI questions</div>
               <div id="detail-questions">
                 <div class="ai-q" onclick="alert('Sending to AI...')"><i class="ti ti-help-circle"></i>What happens to existing annual contract customers?</div>
                 <div class="ai-q" onclick="alert('Sending to AI...')"><i class="ti ti-help-circle"></i>What data validates SMB accepts metered billing?</div>
@@ -836,9 +1040,93 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
             <div class="md-divider"></div>
             <div class="md-section">
               <div class="md-section-label">Sources</div>
-              <div style="font-size:11px;color:var(--t3);line-height:1.8">Slack #pricing · 3 threads<br>Notion: Pricing v2 brief<br>Meeting: Product sync 06/05<br>Jira: PRICE-24, PRICE-25</div>
+              <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:2px">
+                <div class="evidence-badge"><i class="ti ti-brand-slack"></i> Slack #pricing</div>
+                <div class="evidence-badge"><i class="ti ti-notes"></i> Notion brief</div>
+                <div class="evidence-badge"><i class="ti ti-microphone"></i> Product sync</div>
+                <div class="evidence-badge"><i class="ti ti-chart-dots"></i> PRICE-24</div>
+              </div>
             </div>
           </div>
+
+          <!-- STRATEGIC INSPECTOR TAB -->
+          <div class="md-body" id="md-inspector-body" style="display:none">
+            <div class="md-section">
+              <div class="md-section-label" style="margin-bottom:6px">Relationship context</div>
+              <div class="impact-node" onclick="selectNode('assumption1')">
+                <div class="impact-dot" style="background:var(--amber)"></div>
+                SMB accepts metered billing
+                <span class="impact-rel">depends on</span>
+              </div>
+              <div class="impact-node" onclick="selectNode('assumption2')">
+                <div class="impact-dot" style="background:var(--red)"></div>
+                Engineering ships in 6 weeks
+                <span class="impact-rel">blocks</span>
+              </div>
+              <div class="impact-node">
+                <div class="impact-dot" style="background:var(--blue)"></div>
+                D-16 · Billing infra timeline
+                <span class="impact-rel">blocked by</span>
+              </div>
+              <div class="kpi-row" style="margin-top:8px">
+                <span class="kpi-pill"><i class="ti ti-trending-up" style="font-size:10px"></i> ARR impact</span>
+                <span class="kpi-pill"><i class="ti ti-users" style="font-size:10px"></i> SMB retention</span>
+                <span class="kpi-pill"><i class="ti ti-calendar" style="font-size:10px"></i> Q3 roadmap</span>
+              </div>
+            </div>
+            <div class="md-divider"></div>
+            <div class="md-section">
+              <div class="md-section-label" style="margin-bottom:6px">Historical intelligence</div>
+              <div class="history-item">
+                <div class="history-item-label">Similar past decision</div>
+                <div class="history-item-text">Seat model migration failed Q4 '23 — caused churn spike in mid-market</div>
+                <div class="history-item-source">Post-mortem · Nov 2023</div>
+              </div>
+              <div class="history-item">
+                <div class="history-item-label">Related meeting reference</div>
+                <div class="history-item-text">Pricing committee meeting — Sarah proposed gradual rollout over hard cutover</div>
+                <div class="history-item-source">All hands · Apr 28</div>
+              </div>
+              <div class="history-item">
+                <div class="history-item-label">Previous attempt</div>
+                <div class="history-item-text">Usage-based proposal rejected by Finance in 2022 — predictability concerns</div>
+                <div class="history-item-source">Finance review · Q2 '22</div>
+              </div>
+            </div>
+            <div class="md-divider"></div>
+            <div class="md-section">
+              <div class="md-section-label" style="margin-bottom:6px">Team dynamics</div>
+              <div class="team-member">
+                <div class="tm-avatar" style="background:var(--blue-bg);color:var(--blue-t)">SK</div>
+                <div class="tm-body">
+                  <div class="tm-name">Sarah K.</div>
+                  <div class="tm-stance"><span class="tm-stance-badge stance-supports">supports</span>Option B with pilot cohort</div>
+                </div>
+              </div>
+              <div class="team-member">
+                <div class="tm-avatar" style="background:var(--green-bg);color:var(--green-t)">JT</div>
+                <div class="tm-body">
+                  <div class="tm-name">James T.</div>
+                  <div class="tm-stance"><span class="tm-stance-badge stance-blocks">blocks</span>Infra not ready — 6-week gap</div>
+                </div>
+              </div>
+              <div class="team-member">
+                <div class="tm-avatar" style="background:var(--amber-bg);color:var(--amber-t)">ML</div>
+                <div class="tm-body">
+                  <div class="tm-name">Mia L.</div>
+                  <div class="tm-stance"><span class="tm-stance-badge stance-supports">supports</span>Model first, build second</div>
+                </div>
+              </div>
+              <div class="team-member">
+                <div class="tm-avatar" style="background:var(--red-bg);color:var(--red-t)">FN</div>
+                <div class="tm-body">
+                  <div class="tm-name">Finance (unresolved)</div>
+                  <div class="tm-stance"><span class="tm-stance-badge stance-concern">concern</span>Revenue predictability risk</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="md-body" id="md-risks-body" style="display:none">
             <div class="md-section">
               <div class="md-section-label">Risk register</div>
@@ -852,6 +1140,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
           <div class="md-body" id="md-transcript-body" style="display:none">
             <div class="md-section">
               <div class="md-section-label">Live from meeting</div>
+              <div style="font-size:11px;color:var(--t3);margin-bottom:8px">Generated from <strong style="color:var(--blue-t)">4 meeting signals</strong> · Product sync</div>
               <div style="display:flex;flex-direction:column;gap:8px;" id="live-transcript-detail">
                 <div class="td-line">
                   <span class="td-speaker">Sarah</span>
@@ -876,13 +1165,13 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
       </div>
 
       <!-- Transcript drawer -->
-      <div class="transcript-drawer open" id="transcript-drawer">
+      <div class="transcript-drawer closed" id="transcript-drawer">
         <div class="td-header" onclick="toggleDrawer()">
           <div class="td-rec"></div>
           <span class="td-title">Live transcript · Product sync</span>
           <span style="font-size:11px;color:var(--t3);margin-left:8px" id="td-count">4 signals captured</span>
           <span class="td-timer" id="td-timer">12:08</span>
-          <i class="ti ti-chevron-down td-chevron" id="td-chevron"></i>
+          <i class="ti ti-chevron-right td-chevron" id="td-chevron"></i>
         </div>
         <div class="td-scroll" id="td-scroll">
           <div class="td-line">
@@ -1475,6 +1764,7 @@ function switchDetailTab(tab, btn) {
   document.querySelectorAll('.md-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('md-detail-body').style.display = tab === 'detail' ? 'block' : 'none';
+  document.getElementById('md-inspector-body').style.display = tab === 'inspector' ? 'block' : 'none';
   document.getElementById('md-risks-body').style.display = tab === 'risks' ? 'block' : 'none';
   document.getElementById('md-transcript-body').style.display = tab === 'transcript' ? 'block' : 'none';
 }
@@ -1500,6 +1790,61 @@ function selectNode(id) {
   document.getElementById('detail-owner').textContent = d.owner;
 }
 
+// Timeline scrubber
+const timelineDates = ['May 2', 'May 12', 'May 21', 'Jun 1', 'Jun 5', 'Now'];
+function scrubTimeline(e, track) {
+  const rect = track.getBoundingClientRect();
+  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  document.getElementById('timeline-fill').style.width = (pct * 100) + '%';
+  document.getElementById('timeline-thumb').style.right = ((1 - pct) * 100) + '%';
+  document.getElementById('timeline-thumb').style.left = 'auto';
+  const idx = Math.min(timelineDates.length - 1, Math.floor(pct * timelineDates.length));
+  document.getElementById('timeline-date').textContent = timelineDates[idx];
+  // visual feedback: stale nodes when scrubbing back in time
+  const isHistory = pct < 0.95;
+  document.querySelectorAll('.node.hot-debate, .node.ai-recommended').forEach(n => {
+    n.style.opacity = isHistory ? '0.7' : '';
+  });
+  if (idx < 3) {
+    // showing past state: assumption2 didn't exist yet
+    const a2 = document.getElementById('node-assumption2');
+    if (a2) a2.style.opacity = pct < 0.5 ? '0.1' : '';
+  }
+}
+
+let replayInterval = null;
+function toggleReplay(btn) {
+  if (replayInterval) {
+    clearInterval(replayInterval);
+    replayInterval = null;
+    btn.classList.remove('active');
+    btn.innerHTML = '<i class="ti ti-player-play"></i> Replay';
+    // reset
+    document.getElementById('timeline-fill').style.width = '100%';
+    document.getElementById('timeline-thumb').style.right = '-1px';
+    document.getElementById('timeline-date').textContent = 'Now';
+    document.querySelectorAll('.node').forEach(n => n.style.opacity = '');
+    return;
+  }
+  btn.classList.add('active');
+  btn.innerHTML = '<i class="ti ti-player-stop"></i> Stop';
+  let pct = 0;
+  document.getElementById('timeline-fill').style.width = '0%';
+  document.getElementById('timeline-thumb').style.right = '100%';
+  document.getElementById('timeline-thumb').style.left = 'auto';
+  replayInterval = setInterval(() => {
+    pct += 0.005;
+    if (pct >= 1) { pct = 1; clearInterval(replayInterval); replayInterval = null; btn.classList.remove('active'); btn.innerHTML = '<i class="ti ti-player-play"></i> Replay'; }
+    document.getElementById('timeline-fill').style.width = (pct * 100) + '%';
+    document.getElementById('timeline-thumb').style.right = ((1 - pct) * 100) + '%';
+    const idx = Math.min(timelineDates.length - 1, Math.floor(pct * timelineDates.length));
+    document.getElementById('timeline-date').textContent = timelineDates[idx];
+    // Show assumption2 appearing mid-replay
+    const a2 = document.getElementById('node-assumption2');
+    if (a2) a2.style.opacity = pct > 0.55 ? '' : '0.1';
+  }, 50);
+}
+
 let recording = true, secs = 728;
 const timerEl = document.getElementById('dev-timer');
 const tdTimerEl = document.getElementById('td-timer');
@@ -1520,7 +1865,7 @@ function toggleRecording() {
   if (status) status.textContent = recording ? 'Recording active' : 'Paused';
 }
 
-let drawerOpen = true;
+let drawerOpen = false;
 function toggleDrawer() {
   drawerOpen = !drawerOpen;
   const drawer = document.getElementById('transcript-drawer');
