@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stratis — Strategic Decision Intelligence</title>
+<title>Stratis — Strategic Decision Intelligence v2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,125 +14,149 @@
 :root {
   --font: 'DM Sans', sans-serif;
   --mono: 'DM Mono', monospace;
-
-  /* ── DARK SURFACES ── */
   --bg:   #0E0E10;
   --bg2:  #141416;
   --bg3:  #1A1A1E;
   --bg4:  #222228;
   --bg5:  #2A2A32;
-
-  /* ── TEXT ── */
   --t1: #F2F2F0;
   --t2: #8F8F9A;
   --t3: #56565E;
-
-  /* ── BORDERS ── */
   --border:  rgba(255,255,255,0.06);
   --border2: rgba(255,255,255,0.11);
   --border3: rgba(255,255,255,0.18);
-
-  /* ── VIVID TOPIC COLORS ──
-     Decision  → electric blue
-     Option    → cyan-teal
-     Risk      → coral-red
-     Assumption→ amber-gold
-     Opportunity→ neon-green
-     Origin    → muted slate
-  */
   --blue:      #4D9EFF;
   --blue-bg:   rgba(77,158,255,0.12);
   --blue-t:    #7DBFFF;
-
   --cyan:      #00D4C8;
   --cyan-bg:   rgba(0,212,200,0.12);
-  --cyan-t:    #33DEDA;
-
   --green:     #3DDA7A;
   --green-bg:  rgba(61,218,122,0.12);
   --green-t:   #5EE490;
-
   --amber:     #FFB830;
   --amber-bg:  rgba(255,184,48,0.12);
   --amber-t:   #FFCA60;
-
   --red:       #FF5757;
   --red-bg:    rgba(255,87,87,0.12);
   --red-t:     #FF7A7A;
-
   --purple:    #A78BFA;
   --purple-bg: rgba(167,139,250,0.12);
   --purple-t:  #C4B5FD;
-
-  --pink:      #F472B6;
-  --pink-bg:   rgba(244,114,182,0.12);
-  --pink-t:    #F9A8D4;
-
-  /* white highlight accent */
   --white-hl:     #FFFFFF;
   --white-hl-dim: rgba(255,255,255,0.08);
-
   --r: 6px;
   --rlg: 10px;
+  --sidebar-w: 52px;
 }
 
 html, body { height: 100%; overflow: hidden; }
 body { font-family: var(--font); background: var(--bg); color: var(--t1); font-size: 13px; line-height: 1.5; }
-
-/* ── APP SHELL ── */
 .app { display: flex; height: 100vh; overflow: hidden; }
 
-/* ── SIDEBAR ── */
-.sidebar {
-  width: 200px;
+/* ── ICON RAIL (replaces text sidebar) ── */
+.rail {
+  width: var(--sidebar-w);
   flex-shrink: 0;
   background: var(--bg2);
   border-right: 0.5px solid var(--border);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-}
-.sidebar-logo {
-  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 14px 14px 10px;
-  border-bottom: 0.5px solid var(--border);
+  padding: 10px 0;
+  gap: 2px;
+  z-index: 100;
+}
+.rail-logo {
+  width: 28px; height: 28px;
+  background: var(--white-hl);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px; flex-shrink: 0;
+}
+.rail-logo i { font-size: 14px; color: var(--bg); }
+.rail-spacer { flex: 1; }
+
+.rail-btn {
+  width: 36px; height: 36px;
+  border-radius: var(--r);
+  border: none; background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--t3); font-size: 18px;
+  transition: all 0.12s; position: relative;
   flex-shrink: 0;
 }
-.logo-mark {
-  width: 22px; height: 22px;
-  background: var(--white-hl);
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
+.rail-btn:hover { background: var(--bg3); color: var(--t2); }
+.rail-btn.active { background: var(--bg4); color: var(--white-hl); }
+.rail-btn .rbadge {
+  position: absolute; top: 3px; right: 3px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--red); border: 1.5px solid var(--bg2);
 }
-.logo-mark i { font-size: 13px; color: var(--bg); }
-.logo-name { font-size: 14px; font-weight: 600; letter-spacing: -0.02em; color: var(--t1); }
-.logo-badge { font-size: 9px; font-weight: 500; background: var(--green-bg); color: var(--green-t); padding: 2px 5px; border-radius: 4px; margin-left: auto; }
+.rail-btn .rbadge-live {
+  position: absolute; top: 3px; right: 3px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--red); animation: pulse 1.8s infinite;
+  border: 1.5px solid var(--bg2);
+}
 
-.sidebar-scroll { flex: 1; overflow-y: auto; padding: 8px 6px; display: flex; flex-direction: column; gap: 1px; }
-.sidebar-section { margin-bottom: 4px; }
-.sidebar-section-label { font-size: 10px; font-weight: 500; color: var(--t3); letter-spacing: 0.07em; text-transform: uppercase; padding: 6px 8px 3px; }
+/* tooltip on hover */
+.rail-btn[data-tip]:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 50%; transform: translateY(-50%);
+  background: var(--bg5); color: var(--t1);
+  font-size: 11.5px; font-family: var(--font);
+  padding: 4px 8px; border-radius: 5px; white-space: nowrap;
+  pointer-events: none; z-index: 1000;
+  border: 0.5px solid var(--border2);
+}
 
-.nav-item {
+.rail-divider { width: 24px; height: 0.5px; background: var(--border); margin: 6px 0; }
+
+/* ── CONTEXT DRAWER (workflow sidebar) ── */
+.context-drawer {
+  width: 0;
+  overflow: hidden;
+  background: var(--bg2);
+  border-right: 0.5px solid var(--border);
+  flex-shrink: 0;
+  transition: width 0.2s ease;
+  display: flex; flex-direction: column;
+}
+.context-drawer.open { width: 196px; }
+
+.cd-header {
+  padding: 14px 14px 10px;
+  border-bottom: 0.5px solid var(--border);
+  flex-shrink: 0; min-width: 196px;
+}
+.cd-project-name { font-size: 13px; font-weight: 600; letter-spacing: -0.015em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cd-project-sub { font-size: 11px; color: var(--t3); white-space: nowrap; }
+
+.cd-scroll { flex: 1; overflow-y: auto; padding: 8px 6px; min-width: 196px; }
+
+.cd-section { margin-bottom: 14px; }
+.cd-section-label { font-size: 10px; font-weight: 500; color: var(--t3); letter-spacing: 0.07em; text-transform: uppercase; padding: 4px 8px 3px; white-space: nowrap; }
+
+/* Workflow items — the key UX fix */
+.wf-item {
   display: flex; align-items: center; gap: 8px;
-  padding: 6px 8px; border-radius: var(--r);
+  padding: 7px 8px; border-radius: var(--r);
   cursor: pointer; font-size: 12.5px; color: var(--t2);
   border: none; background: transparent; width: 100%; text-align: left;
   font-family: var(--font); transition: all 0.12s;
   white-space: nowrap; overflow: hidden;
 }
-.nav-item:hover { background: var(--bg3); color: var(--t1); }
-.nav-item.active { background: var(--bg4); color: var(--white-hl); font-weight: 500; box-shadow: 0 0 0 0.5px var(--border2); }
-.nav-item i { font-size: 15px; flex-shrink: 0; }
-.nav-item .nav-badge { margin-left: auto; font-size: 10px; background: var(--bg5); color: var(--t3); padding: 1px 6px; border-radius: 10px; flex-shrink: 0; }
-.nav-item .nav-badge.alert { background: var(--red-bg); color: var(--red-t); }
+.wf-item:hover { background: var(--bg3); color: var(--t1); }
+.wf-item.active { background: var(--bg4); color: var(--white-hl); font-weight: 500; }
+.wf-item i { font-size: 15px; flex-shrink: 0; }
+.wf-badge { margin-left: auto; font-size: 10px; padding: 1px 6px; border-radius: 10px; flex-shrink: 0; }
+.wf-badge.neutral { background: var(--bg5); color: var(--t3); }
+.wf-badge.alert { background: var(--red-bg); color: var(--red-t); }
+.wf-badge.live { background: var(--red-bg); color: var(--red-t); animation: pulse 1.8s infinite; }
 
-.sidebar-bottom {
-  padding: 8px 6px;
-  border-top: 0.5px solid var(--border);
-  flex-shrink: 0;
-}
+.cd-bottom { padding: 8px 6px; border-top: 0.5px solid var(--border); flex-shrink: 0; min-width: 196px; }
 .device-pill {
   display: flex; align-items: center; gap: 7px;
   padding: 7px 8px; border-radius: var(--r);
@@ -171,65 +195,20 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .topbar-btn i { font-size: 14px; }
 .topbar-btn.primary { background: var(--t1); color: var(--bg); border-color: var(--t1); }
 .topbar-btn.primary:hover { opacity: 0.85; }
+.topbar-btn.active { background: var(--amber-bg); border-color: var(--amber); color: var(--amber-t); }
 
 /* ── PANELS ── */
 .panel { display: none; flex: 1; overflow: hidden; flex-direction: column; }
 .panel.active { display: flex; }
 
-/* ════════════════════════════════
-   PANEL: PROJECTS (home)
-═════════════════════════════════ */
-.projects-body { flex: 1; overflow-y: auto; padding: 24px; }
-.projects-hero { margin-bottom: 24px; }
-.projects-hero h1 { font-size: 20px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 4px; }
-.projects-hero p { font-size: 13px; color: var(--t2); }
-
-.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-bottom: 28px; }
-.project-card {
-  background: var(--bg); border: 0.5px solid var(--border);
-  border-radius: var(--rlg); padding: 16px;
-  cursor: pointer; transition: all 0.15s;
-  display: flex; flex-direction: column; gap: 10px;
-}
-.project-card:hover { border-color: var(--border2); transform: translateY(-1px); }
-.project-card.active-proj { border-color: var(--blue); }
-.project-card-top { display: flex; align-items: flex-start; gap: 10px; }
-.project-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-.project-card-name { font-size: 13px; font-weight: 500; line-height: 1.3; }
-.project-card-desc { font-size: 12px; color: var(--t2); line-height: 1.4; }
-.project-card-stats { display: flex; gap: 10px; }
-.proj-stat { font-size: 11px; color: var(--t3); display: flex; align-items: center; gap: 3px; }
-.proj-stat i { font-size: 12px; }
-.project-card-footer { display: flex; align-items: center; gap: 6px; padding-top: 8px; border-top: 0.5px solid var(--border); }
-.avatar-row { display: flex; }
-.avatar { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; border: 1.5px solid var(--bg); margin-right: -5px; flex-shrink: 0; }
-.project-updated { font-size: 11px; color: var(--t3); margin-left: auto; }
-
-.section-label { font-size: 11px; font-weight: 500; color: var(--t3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 10px; }
-.recent-list { display: flex; flex-direction: column; gap: 6px; }
-.recent-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 12px; border-radius: var(--r);
-  background: var(--bg); border: 0.5px solid var(--border);
-  cursor: pointer; transition: all 0.12s;
-}
-.recent-item:hover { border-color: var(--border2); }
-.recent-item-icon { font-size: 14px; color: var(--t3); flex-shrink: 0; }
-.recent-item-title { font-size: 12.5px; font-weight: 400; flex: 1; }
-.recent-item-project { font-size: 11px; color: var(--t3); }
-.recent-item-time { font-size: 11px; color: var(--t3); margin-left: auto; }
-
-/* ════════════════════════════════
-   PANEL: STRATEGY MAP
-═════════════════════════════════ */
-.map-layout { flex: 1; display: flex; overflow: hidden; }
-.map-canvas-wrap { flex: 1; overflow: auto; background: var(--bg3); position: relative; }
-.map-canvas { padding: 32px; min-width: 700px; min-height: 500px; }
-
+/* ══════════════════════════════════════
+   STRATEGY MAP
+══════════════════════════════════════ */
+.map-layout { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 .map-toolbar {
   height: 40px; flex-shrink: 0;
   background: var(--bg); border-bottom: 0.5px solid var(--border);
-  display: flex; align-items: center; padding: 0 12px; gap: 8px;
+  display: flex; align-items: center; padding: 0 12px; gap: 6px;
 }
 .map-filter-btn {
   display: flex; align-items: center; gap: 4px;
@@ -241,79 +220,101 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .map-filter-btn.on { background: var(--t1); color: var(--bg); border-color: var(--t1); }
 .map-filter-btn i { font-size: 13px; }
 
-.node-tree { display: flex; flex-direction: column; align-items: center; gap: 0; }
-.node-row { display: flex; gap: 16px; justify-content: center; align-items: flex-start; }
-.n-connector { width: 1px; height: 28px; background: var(--border2); margin: 0 auto; position: relative; }
-.n-connector::after { content:''; position:absolute; bottom:-4px; left:-3px; width:7px; height:7px; border-right:1.5px solid var(--border2); border-bottom:1.5px solid var(--border2); transform:rotate(45deg); }
-.n-branch { display: flex; justify-content: center; gap: 60px; height: 28px; position: relative; }
-.n-branch::before { content:''; position:absolute; top:0; left:50%; height:14px; width:1px; background:var(--border2); transform:translateX(-50%); }
-.n-branch-arm { width: 1px; height: 28px; background: var(--border2); }
+/* ── ZOOM LEVELS ── */
+.zoom-level-bar {
+  display: flex; align-items: center; gap: 1px;
+  margin-left: auto;
+  background: var(--bg3); border: 0.5px solid var(--border2);
+  border-radius: var(--r); overflow: hidden; flex-shrink: 0;
+}
+.zoom-btn {
+  padding: 4px 11px; font-size: 11px; cursor: pointer;
+  border: none; background: transparent; color: var(--t3);
+  font-family: var(--font); transition: all 0.12s; white-space: nowrap;
+}
+.zoom-btn:hover { color: var(--t1); }
+.zoom-btn.active { background: var(--bg5); color: var(--t1); font-weight: 500; }
 
+/* ── CANVAS AREA ── */
+.map-body { flex: 1; display: flex; overflow: hidden; }
+.map-canvas-wrap { flex: 1; overflow: auto; background: var(--bg3); position: relative; }
+.map-canvas { padding: 32px; min-width: 700px; min-height: 500px; }
+
+/* ── CLUSTER APPROACH ── */
+.cluster-group {
+  background: rgba(255,255,255,0.02);
+  border: 0.5px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px 16px;
+  position: relative;
+  margin-bottom: 0;
+}
+.cluster-header {
+  display: flex; align-items: center; gap: 7px;
+  margin-bottom: 12px; cursor: pointer;
+}
+.cluster-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--t3);
+  flex: 1;
+}
+.cluster-count {
+  font-size: 10px; background: var(--bg4); color: var(--t3);
+  padding: 1px 6px; border-radius: 10px;
+}
+.cluster-collapse-btn {
+  font-size: 12px; color: var(--t3); cursor: pointer;
+  border: none; background: transparent;
+  display: flex; align-items: center; gap: 4px;
+  font-family: var(--font); padding: 2px 5px;
+  border-radius: 4px; transition: all 0.12s;
+}
+.cluster-collapse-btn:hover { background: var(--bg4); color: var(--t2); }
+
+/* collapsed cluster pill */
+.cluster-pill {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: 8px;
+  border: 0.5px solid var(--border2); background: var(--bg);
+  cursor: pointer; transition: all 0.15s;
+}
+.cluster-pill:hover { border-color: var(--border3); }
+.cluster-pill-label { font-size: 11.5px; font-weight: 500; flex: 1; }
+.cluster-pill-meta { font-size: 10.5px; color: var(--t3); }
+.cluster-pill-expand { font-size: 11px; color: var(--t3); }
+
+.node-tree { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.node-row { display: flex; gap: 12px; justify-content: center; align-items: flex-start; }
+.n-connector { width: 1px; height: 24px; background: var(--border2); margin: 0 auto; position: relative; }
+.n-connector::after { content:''; position:absolute; bottom:-4px; left:-3px; width:7px; height:7px; border-right:1.5px solid var(--border2); border-bottom:1.5px solid var(--border2); transform:rotate(45deg); }
+.n-branch { display: flex; justify-content: center; gap: 48px; height: 24px; position: relative; }
+.n-branch::before { content:''; position:absolute; top:0; left:50%; height:12px; width:1px; background:var(--border2); transform:translateX(-50%); }
+
+/* ── NODES ── */
 .node {
   background: var(--bg); border: 0.5px solid var(--border2);
   border-radius: var(--rlg); padding: 11px 14px;
-  width: 172px; cursor: pointer; transition: all 0.15s;
+  width: 168px; cursor: pointer; transition: all 0.15s;
   flex-shrink: 0; position: relative;
 }
 .node:hover { border-color: var(--border3); transform: translateY(-1px); }
-.node.sel { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(77,158,255,0.15), 0 0 12px rgba(77,158,255,0.08); }
+.node.sel { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(77,158,255,0.15); }
 .node.n-decision { border-color: var(--blue); }
 .node.n-risk { border-color: var(--red); }
 .node.n-assumption { border-color: var(--amber); }
 .node.n-opportunity { border-color: var(--green); }
-.node.n-done { opacity: 0.55; }
-
-/* ── LIFECYCLE STATES ── */
-.node.st-exploring { border-style: dashed; }
-.node.st-debated { border-color: var(--amber); box-shadow: 0 0 0 1px rgba(255,184,48,0.15); }
 .node.st-blocked { border-color: var(--red); opacity: 0.75; }
-.node.st-blocked::after { content:''; position:absolute; top:0; left:0; right:0; bottom:0; border-radius: var(--rlg); background: repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,87,87,0.04) 5px, rgba(255,87,87,0.04) 10px); pointer-events:none; }
 .node.st-validated { border-color: var(--green); }
-.node.st-committed { border-color: var(--green); background: rgba(61,218,122,0.04); }
-.node.st-archived { opacity: 0.35; filter: grayscale(0.6); }
-
-/* ── ACTIVE DISCUSSION PULSE (glow on edges for hot nodes) ── */
-.node.hot-debate {
-  animation: hotglow 2.5s ease-in-out infinite;
-}
+.node.hot-debate { animation: hotglow 2.5s ease-in-out infinite; }
 @keyframes hotglow {
-  0%, 100% { box-shadow: 0 0 0 1px rgba(255,184,48,0.3); }
-  50% { box-shadow: 0 0 0 1px rgba(255,184,48,0.3), 0 0 16px rgba(255,184,48,0.2); }
+  0%, 100% { box-shadow: 0 0 0 1.5px rgba(255,184,48,0.5), 0 0 12px rgba(255,184,48,0.25); }
+  50%       { box-shadow: 0 0 0 1.5px rgba(255,184,48,0.7), 0 0 32px rgba(255,184,48,0.45), 0 0 60px rgba(255,184,48,0.15); }
 }
-.node.ai-recommended {
-  animation: airecglow 3s ease-in-out infinite;
-}
+.node.ai-recommended { animation: airecglow 3s ease-in-out infinite; }
 @keyframes airecglow {
-  0%, 100% { box-shadow: 0 0 0 1px rgba(77,158,255,0.25); }
-  50% { box-shadow: 0 0 0 1px rgba(77,158,255,0.25), 0 0 18px rgba(77,158,255,0.15); }
+  0%, 100% { box-shadow: 0 0 0 1.5px rgba(77,158,255,0.45), 0 0 12px rgba(77,158,255,0.2); }
+  50%       { box-shadow: 0 0 0 1.5px rgba(77,158,255,0.7), 0 0 32px rgba(77,158,255,0.4), 0 0 60px rgba(77,158,255,0.15); }
 }
-
-/* ── NODE WEIGHT SCALING (strategic importance) ── */
-.node.weight-xl { width: 196px; }
-.node.weight-sm { width: 150px; opacity: 0.8; }
-
-/* ── STALE INDICATOR ── */
-.node.stale { opacity: 0.5; filter: saturate(0.4); }
-.node.stale .node-title { color: var(--t3); }
-
-/* ── CONFIDENCE BAR ── */
-.node-confidence { display: flex; align-items: center; gap: 5px; margin-top: 7px; }
-.conf-label { font-size: 9px; color: var(--t3); text-transform: uppercase; letter-spacing: 0.05em; flex-shrink: 0; }
-.conf-bar { flex: 1; height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
-.conf-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
-
-/* ── NODE META FOOTER ── */
-.node-meta-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; padding-top: 5px; border-top: 0.5px solid var(--border); }
-.node-meta-item { font-size: 9.5px; color: var(--t3); display: flex; align-items: center; gap: 2px; }
-.node-meta-item i { font-size: 10px; }
-
-/* ── LIFECYCLE BADGE ── */
-.node-lifecycle { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; padding: 1.5px 5px; border-radius: 3px; }
-.lc-exploring { background: var(--bg4); color: var(--t3); }
-.lc-debated { background: var(--amber-bg); color: var(--amber-t); }
-.lc-blocked { background: var(--red-bg); color: var(--red-t); }
-.lc-validated { background: var(--green-bg); color: var(--green-t); }
-.lc-committed { background: var(--green-bg); color: var(--green-t); }
 
 .node-type-row { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
 .node-type-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
@@ -323,8 +324,30 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .node-tags { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
 .ntag { font-size: 10px; font-weight: 500; padding: 2px 6px; border-radius: 10px; }
 
+.node-lifecycle { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; padding: 1.5px 5px; border-radius: 3px; }
+.lc-exploring { background: var(--bg4); color: var(--t3); }
+.lc-debated { background: var(--amber-bg); color: var(--amber-t); }
+.lc-blocked { background: var(--red-bg); color: var(--red-t); }
+.lc-validated { background: var(--green-bg); color: var(--green-t); }
+
+.node-confidence { display: flex; align-items: center; gap: 5px; margin-top: 7px; }
+.conf-label { font-size: 9px; color: var(--t3); text-transform: uppercase; letter-spacing: 0.05em; flex-shrink: 0; }
+.conf-bar { flex: 1; height: 3px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
+.conf-fill { height: 100%; border-radius: 2px; }
+
+.node-meta-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; padding-top: 5px; border-top: 0.5px solid var(--border); }
+.node-meta-item { font-size: 9.5px; color: var(--t3); display: flex; align-items: center; gap: 2px; }
+.node-meta-item i { font-size: 10px; }
+.evidence-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 4px; padding: 2px 7px; font-size: 10.5px; color: var(--t2); cursor: pointer; transition: all 0.12s; }
+.evidence-badge:hover { border-color: var(--blue); color: var(--blue-t); }
+.evidence-badge i { font-size: 11px; }
+
+/* ORIGIN NODE (wider) */
+.node.n-origin { width: 200px; border-color: var(--border3); }
+
+/* ── MAP DETAIL PANEL ── */
 .map-detail {
-  width: 272px; flex-shrink: 0;
+  width: 268px; flex-shrink: 0;
   border-left: 0.5px solid var(--border);
   background: var(--bg);
   display: flex; flex-direction: column; overflow: hidden;
@@ -332,7 +355,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .map-detail-tabs { display: flex; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
 .md-tab { flex: 1; padding: 9px 6px; text-align: center; font-size: 11.5px; color: var(--t3); cursor: pointer; border: none; background: transparent; font-family: var(--font); transition: all 0.12s; border-bottom: 2px solid transparent; margin-bottom: -0.5px; }
 .md-tab.active { color: var(--t1); font-weight: 500; border-bottom-color: var(--blue); }
-.md-tab:hover { color: var(--t2); }
 .md-body { flex: 1; overflow-y: auto; padding: 14px; }
 .md-section { margin-bottom: 14px; }
 .md-section-label { font-size: 10px; font-weight: 500; color: var(--t3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
@@ -341,29 +363,11 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .ai-q { background: var(--blue-bg); border-radius: var(--r); padding: 9px 11px; font-size: 12px; color: var(--blue-t); line-height: 1.45; cursor: pointer; display: flex; gap: 6px; align-items: flex-start; margin-bottom: 6px; transition: opacity 0.12s; }
 .ai-q:hover { opacity: 0.8; }
 .ai-q i { flex-shrink: 0; font-size: 13px; margin-top: 1px; }
-.risk-row { display: flex; gap: 6px; font-size: 12px; color: var(--t2); align-items: flex-start; padding: 6px 0; border-bottom: 0.5px solid var(--border); line-height: 1.4; }
-.risk-row:last-child { border-bottom: none; }
-.risk-row i { flex-shrink: 0; font-size: 13px; margin-top: 1px; }
 
-/* ── STRATEGIC INSPECTOR COMPONENTS ── */
 .inspector-header { padding: 12px 14px 10px; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
 .inspector-title { font-size: 12.5px; font-weight: 500; color: var(--t1); margin-bottom: 2px; }
 .inspector-subtitle { font-size: 11px; color: var(--t3); }
 
-/* relationship context */
-.impact-node { display: flex; align-items: center; gap: 7px; padding: 5px 0; font-size: 12px; color: var(--t2); border-bottom: 0.5px solid var(--border); cursor: pointer; transition: color 0.12s; }
-.impact-node:last-child { border-bottom: none; }
-.impact-node:hover { color: var(--t1); }
-.impact-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.impact-rel { font-size: 10px; color: var(--t3); margin-left: auto; }
-
-/* history intel */
-.history-item { padding: 7px 9px; border-radius: var(--r); background: var(--bg2); border: 0.5px solid var(--border); margin-bottom: 5px; }
-.history-item-label { font-size: 10px; color: var(--t3); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
-.history-item-text { font-size: 11.5px; color: var(--t2); line-height: 1.4; }
-.history-item-source { font-size: 10px; color: var(--t3); margin-top: 3px; }
-
-/* team dynamics */
 .team-member { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-bottom: 0.5px solid var(--border); }
 .team-member:last-child { border-bottom: none; }
 .tm-avatar { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; flex-shrink: 0; }
@@ -375,86 +379,61 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .stance-concern { background: rgba(255,184,48,0.15); color: var(--amber-t); }
 .stance-blocks { background: rgba(255,87,87,0.15); color: var(--red-t); }
 
-/* evidence badge */
-.evidence-badge { display: inline-flex; align-items: center; gap: 4px; background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 4px; padding: 2px 7px; font-size: 10.5px; color: var(--t2); cursor: pointer; transition: all 0.12s; }
-.evidence-badge:hover { border-color: var(--blue); color: var(--blue-t); }
-.evidence-badge i { font-size: 11px; }
-
-/* kpi impact pills */
-.kpi-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 4px; }
-.kpi-pill { font-size: 10px; padding: 2px 7px; border-radius: 10px; border: 0.5px solid var(--border2); color: var(--t3); }
-
-/* transcript drawer inside map */
-.transcript-drawer {
-  border-top: 0.5px solid var(--border);
-  background: var(--bg);
-  flex-shrink: 0;
-  overflow: hidden;
-  transition: height 0.2s ease;
+/* ── TIMELINE SCRUBBER ── */
+.map-timeline {
+  height: 42px; flex-shrink: 0;
+  background: var(--bg2); border-top: 0.5px solid var(--border);
+  display: flex; align-items: center; padding: 0 16px; gap: 10px;
 }
+.timeline-label { font-size: 11px; color: var(--t3); white-space: nowrap; }
+.timeline-track {
+  flex: 1; height: 4px; background: var(--bg4); border-radius: 3px;
+  position: relative; cursor: pointer;
+}
+.timeline-fill { height: 100%; background: var(--blue); border-radius: 3px; width: 100%; transition: width 0.05s linear; }
+.timeline-thumb { position: absolute; top: -4px; right: -1px; width: 12px; height: 12px; background: var(--white-hl); border-radius: 50%; border: 2px solid var(--blue); transition: right 0.05s linear; }
+.timeline-date { font-size: 11px; font-family: var(--mono); color: var(--blue-t); width: 42px; flex-shrink: 0; }
+.replay-btn { display: flex; align-items: center; gap: 4px; font-size: 11px; padding: 4px 9px; border-radius: var(--r); border: 0.5px solid var(--border2); background: transparent; color: var(--t2); cursor: pointer; font-family: var(--font); white-space: nowrap; flex-shrink: 0; transition: all 0.12s; }
+.replay-btn:hover { color: var(--t1); }
+.replay-btn.active { background: var(--blue-bg); border-color: var(--blue); color: var(--blue-t); }
+.replay-btn i { font-size: 12px; }
+
+/* transcript drawer */
+.transcript-drawer { border-top: 0.5px solid var(--border); background: var(--bg); flex-shrink: 0; overflow: hidden; transition: height 0.2s ease; }
 .transcript-drawer.open { height: 160px; }
 .transcript-drawer.closed { height: 36px; }
-.td-header {
-  height: 36px; display: flex; align-items: center; gap: 8px;
-  padding: 0 12px; cursor: pointer; border-bottom: 0.5px solid var(--border);
-  flex-shrink: 0;
-}
-.td-header.open { border-bottom: 0.5px solid var(--border); }
+.td-header { height: 36px; display: flex; align-items: center; gap: 8px; padding: 0 12px; cursor: pointer; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
 .td-title { font-size: 12px; font-weight: 500; }
 .td-rec { width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: pulse 1.8s infinite; flex-shrink: 0; }
 .td-timer { font-size: 11px; font-family: var(--mono); color: var(--t3); margin-left: auto; }
 .td-chevron { font-size: 13px; color: var(--t3); }
 .td-scroll { height: 120px; overflow-y: auto; padding: 8px 12px; display: flex; flex-direction: column; gap: 5px; }
 .td-line { display: flex; gap: 8px; align-items: flex-start; }
-.td-speaker { font-size: 11px; font-weight: 500; color: var(--blue-t); width: 36px; flex-shrink: 0; padding-top: 1px; }
+.td-speaker { font-size: 11px; font-weight: 500; color: var(--blue-t); width: 36px; flex-shrink: 0; }
 .td-text { font-size: 11.5px; color: var(--t2); line-height: 1.45; flex: 1; }
-.td-flag { font-size: 10px; font-weight: 500; padding: 1px 5px; border-radius: 4px; flex-shrink: 0; margin-top: 1px; white-space: nowrap; }
-.td-pin { font-size: 11px; color: var(--t3); cursor: pointer; margin-left: 4px; padding-top: 1px; flex-shrink: 0; }
+.td-flag { font-size: 10px; font-weight: 500; padding: 1px 5px; border-radius: 4px; flex-shrink: 0; white-space: nowrap; }
+.td-pin { font-size: 11px; color: var(--t3); cursor: pointer; }
 .td-pin:hover { color: var(--blue-t); }
 
-/* ai bar */
 .ai-bar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-top: 0.5px solid var(--border); background: var(--bg2); flex-shrink: 0; }
 .ai-bar i { font-size: 15px; color: var(--blue-t); flex-shrink: 0; }
 .ai-input { flex: 1; font-size: 12.5px; padding: 7px 10px; border-radius: var(--r); border: 0.5px solid var(--border2); background: var(--bg); color: var(--t1); font-family: var(--font); outline: none; }
 .ai-input:focus { border-color: var(--blue); }
 .ai-send { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; padding: 7px 12px; border-radius: var(--r); border: none; background: var(--t1); color: var(--bg); cursor: pointer; font-family: var(--font); transition: opacity 0.12s; white-space: nowrap; }
 .ai-send:hover { opacity: 0.85; }
-.ai-send i { font-size: 13px; }
 
-/* ── TIMELINE SCRUBBER / DECISION REPLAY ── */
-.map-timeline {
-  height: 42px; flex-shrink: 0;
-  border-bottom: 0.5px solid var(--border);
-  background: var(--bg2);
-  display: flex; align-items: center; padding: 0 14px; gap: 10px;
-}
-.timeline-label { font-size: 10.5px; color: var(--t3); white-space: nowrap; display: flex; align-items: center; gap: 5px; }
-.timeline-label i { font-size: 13px; }
-.timeline-track { flex: 1; height: 4px; background: var(--bg4); border-radius: 2px; position: relative; cursor: pointer; }
-.timeline-fill { height: 100%; background: linear-gradient(90deg, var(--blue) 0%, var(--cyan) 100%); border-radius: 2px; width: 100%; transition: width 0.3s; }
-.timeline-thumb { position: absolute; right: -1px; top: -5px; width: 14px; height: 14px; border-radius: 50%; background: var(--t1); border: 2px solid var(--bg2); cursor: grab; }
-.timeline-markers { position: absolute; top: 8px; left: 0; right: 0; display: flex; justify-content: space-between; pointer-events: none; }
-.timeline-mark { width: 1px; height: 5px; background: var(--border2); }
-.timeline-date { font-size: 10px; font-family: var(--mono); color: var(--t3); white-space: nowrap; }
-.timeline-replay-btn { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; padding: 4px 9px; border-radius: var(--r); border: 0.5px solid var(--border2); background: transparent; color: var(--t2); cursor: pointer; font-family: var(--font); white-space: nowrap; transition: all 0.12s; }
-.timeline-replay-btn:hover { background: var(--bg3); color: var(--t1); }
-.timeline-replay-btn i { font-size: 12px; }
-.timeline-replay-btn.active { background: var(--blue-bg); border-color: var(--blue); color: var(--blue-t); }
-
-/* ════════════════════════════════
-   PANEL: MEETING VIEW
-═════════════════════════════════ */
+/* ══════════════════════════════════════
+   MEETING PANEL
+══════════════════════════════════════ */
 .meeting-layout { flex: 1; display: flex; overflow: hidden; }
 .meeting-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-.meeting-header { padding: 16px 20px 14px; border-bottom: 0.5px solid var(--border); background: var(--bg); flex-shrink: 0; }
-.meeting-title-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
-.meeting-rec-badge { display: flex; align-items: center; gap: 5px; background: var(--red-bg); color: var(--red-t); font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; flex-shrink: 0; }
-.meeting-title { font-size: 16px; font-weight: 500; letter-spacing: -0.01em; flex: 1; }
-.meeting-meta-row { display: flex; align-items: center; gap: 14px; }
-.meeting-meta { font-size: 12px; color: var(--t3); display: flex; align-items: center; gap: 4px; }
-.meeting-meta i { font-size: 13px; }
-.participant-chip { display: flex; align-items: center; gap: 5px; background: var(--bg2); border-radius: 20px; padding: 3px 8px 3px 4px; }
-.participant-avatar { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 600; flex-shrink: 0; }
+.meeting-header { padding: 14px 20px 12px; border-bottom: 0.5px solid var(--border); flex-shrink: 0; display: flex; align-items: center; gap: 12px; }
+.meeting-title-text { font-size: 15px; font-weight: 500; letter-spacing: -0.01em; }
+.meeting-meta { font-size: 12px; color: var(--t3); }
+.meeting-rec-badge { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 10px; background: var(--red-bg); color: var(--red-t); font-size: 11px; font-weight: 500; margin-left: auto; }
+.participants { display: flex; align-items: center; gap: 8px; padding: 10px 20px; border-bottom: 0.5px solid var(--border); flex-shrink: 0; flex-wrap: wrap; }
+.participant { display: flex; align-items: center; gap: 6px; }
+.participant-avatar { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; }
 .participant-name { font-size: 11px; color: var(--t2); }
 .participant-speaking { box-shadow: 0 0 0 2px var(--green); }
 
@@ -471,14 +450,13 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .tb-actions { display: flex; gap: 6px; margin-top: 6px; }
 .tb-action-btn { font-size: 11px; padding: 3px 8px; border-radius: 4px; border: 0.5px solid var(--border2); background: var(--bg); color: var(--t2); cursor: pointer; font-family: var(--font); transition: all 0.12s; display: flex; align-items: center; gap: 4px; }
 .tb-action-btn:hover { background: var(--bg2); color: var(--t1); }
-.tb-action-btn i { font-size: 12px; }
-.ai-insight { background: var(--blue-bg); border-left: 2px solid var(--blue); border-radius: 0 var(--r) var(--r) 0; padding: 10px 12px; margin: 4px 0; }
+.ai-insight { background: var(--blue-bg); border-left: 2px solid var(--blue); border-radius: 0 var(--r) var(--r) 0; padding: 10px 12px; }
 .ai-insight-label { font-size: 10px; font-weight: 600; color: var(--blue-t); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
 .ai-insight-text { font-size: 12px; color: var(--t2); line-height: 1.5; }
 .assumption-tag { display: inline-flex; align-items: center; gap: 4px; background: var(--amber-bg); color: var(--amber-t); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
 .decision-tag { display: inline-flex; align-items: center; gap: 4px; background: var(--blue-bg); color: var(--blue-t); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
 
-.meeting-sidebar { width: 240px; flex-shrink: 0; border-left: 0.5px solid var(--border); background: var(--bg); overflow-y: auto; }
+.meeting-sidebar { width: 236px; flex-shrink: 0; border-left: 0.5px solid var(--border); background: var(--bg); overflow-y: auto; }
 .meeting-sidebar-section { padding: 12px 14px; border-bottom: 0.5px solid var(--border); }
 .mss-title { font-size: 11px; font-weight: 500; color: var(--t3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
 .captured-item { display: flex; gap: 8px; align-items: flex-start; padding: 7px 0; border-bottom: 0.5px solid var(--border); }
@@ -487,11 +465,63 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .ci-text { font-size: 12px; color: var(--t1); line-height: 1.4; flex: 1; }
 .ci-meta { font-size: 10px; color: var(--t3); margin-top: 2px; }
 .ci-action { font-size: 11px; color: var(--blue-t); cursor: pointer; flex-shrink: 0; margin-top: 1px; }
-.ci-action:hover { text-decoration: underline; }
 
-/* ════════════════════════════════
-   PANEL: DOCUMENT / NODE VIEW
-═════════════════════════════════ */
+/* ══════════════════════════════════════
+   REVIEW PANEL (was "Decisions")
+══════════════════════════════════════ */
+.decisions-layout { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+.decisions-filter-row { display: flex; gap: 6px; margin-bottom: 4px; flex-wrap: wrap; }
+.filter-chip { font-size: 11.5px; padding: 4px 10px; border-radius: 20px; border: 0.5px solid var(--border2); background: var(--bg); color: var(--t2); cursor: pointer; transition: all 0.12s; font-family: var(--font); }
+.filter-chip:hover { color: var(--t1); }
+.filter-chip.on { background: var(--t1); color: var(--bg); border-color: var(--t1); }
+.decision-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--rlg); padding: 14px 16px; cursor: pointer; transition: all 0.12s; }
+.decision-card:hover { border-color: var(--border2); }
+.decision-card.blocked { border-left: 3px solid var(--red); border-radius: 0 var(--rlg) var(--rlg) 0; }
+.dc-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.dc-num { font-size: 11px; color: var(--t3); font-family: var(--mono); flex-shrink: 0; padding-top: 2px; }
+.dc-title { font-size: 13px; font-weight: 500; flex: 1; line-height: 1.35; }
+.dc-status { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 10px; flex-shrink: 0; }
+.dc-body { font-size: 12px; color: var(--t2); line-height: 1.5; padding-left: 28px; margin-bottom: 8px; }
+.dc-option { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 0.5px solid var(--border2); background: var(--bg2); cursor: pointer; transition: all 0.12s; font-family: var(--font); color: var(--t1); }
+.dc-option:hover { background: var(--bg3); }
+.dc-option.chosen { background: var(--t1); color: var(--bg); border-color: var(--t1); }
+.dc-footer { display: flex; align-items: center; gap: 12px; padding-left: 28px; }
+.dc-meta { font-size: 11px; color: var(--t3); display: flex; align-items: center; gap: 3px; }
+
+/* ══════════════════════════════════════
+   INBOX PANEL
+══════════════════════════════════════ */
+.inbox-layout { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.inbox-group-label { font-size: 10.5px; font-weight: 500; color: var(--t3); text-transform: uppercase; letter-spacing: 0.06em; padding: 4px 0; }
+.inbox-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--rlg); padding: 11px 14px; display: flex; gap: 10px; cursor: pointer; transition: all 0.12s; }
+.inbox-card:hover { border-color: var(--border2); }
+.inbox-unread-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); margin-top: 6px; flex-shrink: 0; }
+.inbox-unread-dot.empty { background: transparent; }
+.inbox-source-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: var(--bg2); }
+.inbox-body { flex: 1; min-width: 0; }
+.inbox-header { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+.inbox-from { font-size: 12px; font-weight: 500; }
+.inbox-via { font-size: 11px; color: var(--t3); }
+.inbox-time { font-size: 11px; color: var(--t3); margin-left: auto; white-space: nowrap; }
+.inbox-text { font-size: 12px; color: var(--t2); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.inbox-tag { font-size: 10px; font-weight: 500; padding: 2px 6px; border-radius: 4px; flex-shrink: 0; align-self: center; }
+
+/* ── UX annotation overlay ── */
+.ux-annotation {
+  position: absolute;
+  background: rgba(255,184,48,0.08);
+  border: 1px dashed rgba(255,184,48,0.4);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 10.5px;
+  color: var(--amber-t);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ══════════════════════════════════════
+   DOCUMENT PANEL
+══════════════════════════════════════ */
 .doc-layout { flex: 1; display: flex; overflow: hidden; }
 .doc-toc { width: 200px; flex-shrink: 0; border-right: 0.5px solid var(--border); background: var(--bg2); overflow-y: auto; padding: 12px 8px; }
 .doc-toc-section { margin-bottom: 12px; }
@@ -506,13 +536,12 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .doc-header { margin-bottom: 28px; }
 .doc-type-badge { font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--blue-t); background: var(--blue-bg); padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
 .doc-title { font-size: 22px; font-weight: 500; letter-spacing: -0.025em; line-height: 1.25; margin-bottom: 8px; }
-.doc-meta-row { display: flex; align-items: center; gap: 14px; }
+.doc-meta-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .doc-meta { font-size: 12px; color: var(--t3); display: flex; align-items: center; gap: 4px; }
 .doc-meta i { font-size: 13px; }
 .doc-body { max-width: 640px; }
 .doc-section { margin-bottom: 28px; }
 .doc-section h2 { font-size: 15px; font-weight: 500; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 0.5px solid var(--border); }
-.doc-section h3 { font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--t2); }
 .doc-p { font-size: 13px; color: var(--t2); line-height: 1.7; margin-bottom: 10px; }
 .doc-callout { border-left: 2px solid var(--amber); background: var(--amber-bg); border-radius: 0 var(--r) var(--r) 0; padding: 10px 14px; margin: 12px 0; }
 .doc-callout-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--amber-t); margin-bottom: 3px; }
@@ -546,59 +575,50 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .source-item:last-child { border-bottom: none; }
 .source-item i { font-size: 12px; flex-shrink: 0; color: var(--t3); }
 
-/* ════════════════════════════════
-   PANEL: DECISIONS
-═════════════════════════════════ */
-.decisions-layout { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-.decisions-filter-row { display: flex; gap: 6px; margin-bottom: 4px; flex-wrap: wrap; }
-.filter-chip { font-size: 11.5px; padding: 4px 10px; border-radius: 20px; border: 0.5px solid var(--border2); background: var(--bg); color: var(--t2); cursor: pointer; transition: all 0.12s; font-family: var(--font); }
-.filter-chip:hover { color: var(--t1); }
-.filter-chip.on { background: var(--t1); color: var(--bg); border-color: var(--t1); }
-.decision-card {
-  background: var(--bg); border: 0.5px solid var(--border);
-  border-radius: var(--rlg); padding: 14px 16px;
-  cursor: pointer; transition: all 0.12s;
-}
-.decision-card:hover { border-color: var(--border2); }
-.decision-card.blocked { border-left: 3px solid var(--red); border-radius: 0 var(--rlg) var(--rlg) 0; }
-.dc-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
-.dc-num { font-size: 11px; color: var(--t3); font-family: var(--mono); flex-shrink: 0; padding-top: 2px; }
-.dc-title { font-size: 13px; font-weight: 500; flex: 1; line-height: 1.35; }
-.dc-status { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 10px; flex-shrink: 0; }
-.dc-body { font-size: 12px; color: var(--t2); line-height: 1.5; padding-left: 28px; margin-bottom: 8px; }
-.dc-option {color: #FFFFFF; font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 0.5px solid var(--border2); background: var(--bg2); cursor: pointer; transition: all 0.12s; font-family: var(--font); }
-.dc-option { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 0.5px solid var(--border2); background: var(--bg2); cursor: pointer; transition: all 0.12s; font-family: var(--font); }
-.dc-option:hover { background: var(--bg3); }
-.dc-option.chosen { background: var(--t1); color: var(--bg); border-color: var(--t1); }
-.dc-footer { display: flex; align-items: center; gap: 12px; padding-left: 28px; }
-.dc-meta { font-size: 11px; color: var(--t3); display: flex; align-items: center; gap: 3px; }
-.dc-meta i { font-size: 12px; }
+/* scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 10px; }
 
-/* ════════════════════════════════
-   PANEL: INBOX
-═════════════════════════════════ */
-.inbox-layout { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
-.inbox-group-label { font-size: 10.5px; font-weight: 500; color: var(--t3); text-transform: uppercase; letter-spacing: 0.06em; padding: 4px 0; }
-.inbox-card {
-  background: var(--bg); border: 0.5px solid var(--border);
-  border-radius: var(--rlg); padding: 11px 14px;
-  display: flex; gap: 10px; cursor: pointer; transition: all 0.12s;
+/* ── CHANGES CALLOUT ── */
+.changes-banner {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px; background: rgba(255,184,48,0.07);
+  border-bottom: 0.5px solid rgba(255,184,48,0.2);
+  flex-shrink: 0; font-size: 11.5px; color: var(--amber-t);
 }
-.inbox-card:hover { border-color: var(--border2); }
-.inbox-unread-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); margin-top: 6px; flex-shrink: 0; }
-.inbox-unread-dot.empty { background: transparent; }
-.inbox-source-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: var(--bg2); }
-.inbox-body { flex: 1; min-width: 0; }
-.inbox-header { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
-.inbox-from { font-size: 12px; font-weight: 500; }
-.inbox-via { font-size: 11px; color: var(--t3); }
-.inbox-time { font-size: 11px; color: var(--t3); margin-left: auto; white-space: nowrap; }
-.inbox-text { font-size: 12px; color: var(--t2); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.inbox-tag { font-size: 10px; font-weight: 500; padding: 2px 6px; border-radius: 4px; flex-shrink: 0; align-self: center; }
+.changes-banner i { flex-shrink: 0; }
+.changes-dismiss { margin-left: auto; cursor: pointer; color: var(--t3); font-size: 13px; }
+.changes-dismiss:hover { color: var(--t1); }
 
-/* ════════════════════════════════
-   INTEGRATIONS
-═════════════════════════════════ */
+/* Projects panel */
+.projects-body { flex: 1; overflow-y: auto; padding: 24px; }
+.projects-hero { margin-bottom: 24px; }
+.projects-hero h1 { font-size: 20px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 4px; }
+.projects-hero p { font-size: 13px; color: var(--t2); }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-bottom: 28px; }
+.project-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--rlg); padding: 16px; cursor: pointer; transition: all 0.15s; display: flex; flex-direction: column; gap: 10px; }
+.project-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+.project-card.active-proj { border-color: var(--blue); }
+.project-card-top { display: flex; align-items: flex-start; gap: 10px; }
+.project-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.project-card-name { font-size: 13px; font-weight: 500; line-height: 1.3; }
+.project-card-desc { font-size: 12px; color: var(--t2); line-height: 1.4; }
+.project-card-stats { display: flex; gap: 10px; }
+.proj-stat { font-size: 11px; color: var(--t3); display: flex; align-items: center; gap: 3px; }
+.project-card-footer { display: flex; align-items: center; gap: 6px; padding-top: 8px; border-top: 0.5px solid var(--border); }
+.avatar-row { display: flex; }
+.avatar { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; border: 1.5px solid var(--bg); margin-right: -5px; flex-shrink: 0; }
+.project-updated { font-size: 11px; color: var(--t3); margin-left: auto; }
+.section-label { font-size: 11px; font-weight: 500; color: var(--t3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 10px; }
+.recent-list { display: flex; flex-direction: column; gap: 6px; }
+.recent-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: var(--r); background: var(--bg); border: 0.5px solid var(--border); cursor: pointer; transition: all 0.12s; }
+.recent-item:hover { border-color: var(--border2); }
+.recent-item-title { font-size: 12.5px; font-weight: 400; flex: 1; }
+.recent-item-project { font-size: 11px; color: var(--t3); }
+.recent-item-time { font-size: 11px; color: var(--t3); margin-left: auto; }
+
+/* Integrations */
 .int-layout { flex: 1; overflow-y: auto; padding: 20px; }
 .int-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px; }
 .int-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--rlg); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
@@ -607,75 +627,102 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 .int-name { font-size: 13px; font-weight: 500; }
 .int-sub { font-size: 11px; color: var(--t3); }
 .int-badge { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 10px; align-self: flex-start; }
-
-/* scrollbar */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 10px; }
 </style>
 </head>
 <body>
 
 <div class="app">
 
-  <!-- ── SIDEBAR ── -->
-  <div class="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-mark"><i class="ti ti-git-branch"></i></div>
-      <span class="logo-name">Stratis</span>
-      <span class="logo-badge">Live</span>
+  <!-- ══ ICON RAIL ══ -->
+  <div class="rail">
+    <div class="rail-logo"><i class="ti ti-git-branch"></i></div>
+
+    <button class="rail-btn" data-tip="All projects" onclick="switchPanel('projects', this)" id="rail-projects">
+      <i class="ti ti-layout-grid"></i>
+    </button>
+
+    <div class="rail-divider"></div>
+
+    <!-- Workflow buttons — context-aware -->
+    <button class="rail-btn active" data-tip="Strategy map" onclick="switchPanel('map', this)" id="rail-map">
+      <i class="ti ti-git-branch"></i>
+    </button>
+    <button class="rail-btn" data-tip="In meeting now" onclick="switchPanel('meeting', this)" id="rail-meeting">
+      <i class="ti ti-microphone"></i>
+      <span class="rbadge-live"></span>
+    </button>
+    <button class="rail-btn" data-tip="Review decisions" onclick="switchPanel('decisions', this)" id="rail-decisions">
+      <i class="ti ti-check-square"></i>
+      <span class="rbadge"></span>
+    </button>
+    <button class="rail-btn" data-tip="Signals inbox" onclick="switchPanel('inbox', this)" id="rail-inbox">
+      <i class="ti ti-inbox"></i>
+      <span class="rbadge"></span>
+    </button>
+
+    <div class="rail-spacer"></div>
+
+    <button class="rail-btn" data-tip="Settings & integrations" onclick="switchPanel('integrations', this)" id="rail-integrations">
+      <i class="ti ti-settings"></i>
+    </button>
+    <button class="rail-btn" data-tip="Sarah K." style="margin-bottom:4px">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:600;color:var(--blue-t)">SK</div>
+    </button>
+  </div>
+
+  <!-- ══ CONTEXT DRAWER — opens on map/meeting/decisions ══ -->
+  <div class="context-drawer open" id="context-drawer">
+    <div class="cd-header">
+      <div class="cd-project-name">Pricing v2</div>
+      <div class="cd-project-sub">Active · High priority · Q3</div>
+    </div>
+    <div class="cd-scroll">
+      <!-- Workflow section: what the user is DOING, not features they're opening -->
+      <div class="cd-section">
+        <div class="cd-section-label">I'm working on…</div>
+        <button class="wf-item active" onclick="switchPanel('map', null, this)">
+          <i class="ti ti-git-branch" style="color:var(--blue-t)"></i>
+          Strategy map
+        </button>
+        <button class="wf-item" onclick="switchPanel('meeting', null, this)">
+          <i class="ti ti-microphone" style="color:var(--red-t)"></i>
+          In this meeting
+          <span class="wf-badge live">Live</span>
+        </button>
+        <button class="wf-item" onclick="switchPanel('decisions', null, this)">
+          <i class="ti ti-check-square" style="color:var(--amber-t)"></i>
+          Reviewing decisions
+          <span class="wf-badge alert">4</span>
+        </button>
+        <button class="wf-item" onclick="switchPanel('document', null, this)">
+          <i class="ti ti-file-text" style="color:var(--t2)"></i>
+          Document
+        </button>
+        <button class="wf-item" onclick="switchPanel('inbox', null, this)">
+          <i class="ti ti-inbox" style="color:var(--t2)"></i>
+          Checking signals
+          <span class="wf-badge alert">5</span>
+        </button>
+      </div>
+
+      <div class="cd-section">
+        <div class="cd-section-label">Other projects</div>
+        <button class="wf-item" onclick="">
+          <i class="ti ti-circle" style="color:var(--t3)"></i>
+          Mobile launch
+        </button>
+        <button class="wf-item">
+          <i class="ti ti-circle" style="color:var(--t3)"></i>
+          Enterprise GTM
+        </button>
+        <button class="wf-item">
+          <i class="ti ti-circle" style="color:var(--t3)"></i>
+          Q3 OKRs
+        </button>
+      </div>
     </div>
 
-    <div class="sidebar-scroll">
-      <div class="sidebar-section">
-        <div class="sidebar-section-label">Workspace</div>
-        <button class="nav-item" onclick="switchPanel('projects', this)">
-          <i class="ti ti-layout-grid"></i> Projects
-        </button>
-        <button class="nav-item active" onclick="switchPanel('map', this)">
-          <i class="ti ti-git-branch"></i> Strategy map
-          <span class="nav-badge">Pricing v2</span>
-        </button>
-        <button class="nav-item" onclick="switchPanel('meeting', this)">
-          <i class="ti ti-microphone"></i> Meeting
-          <span class="nav-badge" style="background:var(--red-bg);color:var(--red-t);">Live</span>
-        </button>
-        <button class="nav-item" onclick="switchPanel('document', this)">
-          <i class="ti ti-file-text"></i> Document view
-        </button>
-        <button class="nav-item" onclick="switchPanel('decisions', this)">
-          <i class="ti ti-check-square"></i> Decisions
-          <span class="nav-badge alert">4</span>
-        </button>
-      </div>
-      <div class="sidebar-section">
-        <div class="sidebar-section-label">Intelligence</div>
-        <button class="nav-item" onclick="switchPanel('inbox', this)">
-          <i class="ti ti-inbox"></i> Inbox
-          <span class="nav-badge alert">5</span>
-        </button>
-        <button class="nav-item" onclick="switchPanel('integrations', this)">
-          <i class="ti ti-plug"></i> Integrations
-        </button>
-      </div>
-      <div class="sidebar-section">
-        <div class="sidebar-section-label">Projects</div>
-        <button class="nav-item" onclick="switchPanel('map', this)">
-          <i class="ti ti-circle-dot" style="color:var(--blue)"></i> Pricing v2
-        </button>
-        <button class="nav-item">
-          <i class="ti ti-circle" style="color:var(--t3)"></i> Mobile launch
-        </button>
-        <button class="nav-item">
-          <i class="ti ti-circle" style="color:var(--t3)"></i> Enterprise GTM
-        </button>
-        <button class="nav-item">
-          <i class="ti ti-circle" style="color:var(--t3)"></i> Q3 OKRs
-        </button>
-      </div>
-    </div>
-
-    <div class="sidebar-bottom">
+    <div class="cd-bottom">
       <div class="device-pill" onclick="toggleRecording()">
         <div class="device-rec" id="dev-rec"></div>
         <div class="device-info">
@@ -687,7 +734,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
     </div>
   </div>
 
-  <!-- ── MAIN ── -->
+  <!-- ══ MAIN CONTENT ══ -->
   <div class="main">
 
     <!-- ════ PROJECTS PANEL ════ -->
@@ -703,16 +750,12 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
           <h1>Good morning, Sarah</h1>
           <p>4 active projects · 3 open decisions need your input · 1 meeting in progress</p>
         </div>
-
         <div class="section-label">Active projects</div>
         <div class="projects-grid">
-          <div class="project-card active-proj" onclick="switchPanel('map', document.querySelector('[onclick*=map]'))">
+          <div class="project-card active-proj" onclick="switchPanel('map', null)">
             <div class="project-card-top">
               <div class="project-icon" style="background:var(--blue-bg)"><i class="ti ti-layers" style="color:var(--blue-t)"></i></div>
-              <div>
-                <div class="project-card-name">Pricing v2</div>
-                <div class="project-card-desc" style="font-size:11px;color:var(--t3)">Active · High priority</div>
-              </div>
+              <div><div class="project-card-name">Pricing v2</div><div class="project-card-desc" style="font-size:11px;color:var(--t3)">Active · High priority</div></div>
             </div>
             <div class="project-card-desc">Restructure from feature-gated to usage-based model. Launch Q3.</div>
             <div class="project-card-stats">
@@ -726,98 +769,47 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
                 <div class="avatar" style="background:var(--green-bg);color:var(--green-t)">JT</div>
                 <div class="avatar" style="background:var(--amber-bg);color:var(--amber-t)">ML</div>
               </div>
-              <span class="project-updated">Updated 11 min ago</span>
+              <span class="project-updated">11 min ago</span>
             </div>
           </div>
           <div class="project-card">
             <div class="project-card-top">
               <div class="project-icon" style="background:var(--green-bg)"><i class="ti ti-device-mobile" style="color:var(--green-t)"></i></div>
-              <div>
-                <div class="project-card-name">Mobile launch</div>
-                <div class="project-card-desc" style="font-size:11px;color:var(--t3)">Active · Medium</div>
-              </div>
+              <div><div class="project-card-name">Mobile launch</div><div class="project-card-desc" style="font-size:11px;color:var(--t3)">Active · Medium</div></div>
             </div>
             <div class="project-card-desc">iOS & Android launch. App store review process, go-to-market prep.</div>
-            <div class="project-card-stats">
-              <span class="proj-stat"><i class="ti ti-git-branch"></i> 5 nodes</span>
-              <span class="proj-stat"><i class="ti ti-check-square"></i> 2 open</span>
-            </div>
+            <div class="project-card-stats"><span class="proj-stat"><i class="ti ti-git-branch"></i> 5 nodes</span><span class="proj-stat"><i class="ti ti-check-square"></i> 2 open</span></div>
             <div class="project-card-footer">
-              <div class="avatar-row">
-                <div class="avatar" style="background:var(--purple-bg);color:var(--purple-t)">RK</div>
-                <div class="avatar" style="background:var(--blue-bg);color:var(--blue-t)">SK</div>
-              </div>
+              <div class="avatar-row"><div class="avatar" style="background:var(--purple-bg);color:var(--purple-t)">RK</div></div>
               <span class="project-updated">Yesterday</span>
             </div>
           </div>
           <div class="project-card">
             <div class="project-card-top">
               <div class="project-icon" style="background:var(--purple-bg)"><i class="ti ti-building" style="color:var(--purple-t)"></i></div>
-              <div>
-                <div class="project-card-name">Enterprise GTM</div>
-                <div class="project-card-desc" style="font-size:11px;color:var(--t3)">Planning · Low</div>
-              </div>
+              <div><div class="project-card-name">Enterprise GTM</div><div class="project-card-desc" style="font-size:11px;color:var(--t3)">Planning</div></div>
             </div>
             <div class="project-card-desc">Go-to-market strategy for enterprise segment. SDR motion + inbound.</div>
-            <div class="project-card-stats">
-              <span class="proj-stat"><i class="ti ti-git-branch"></i> 3 nodes</span>
-              <span class="proj-stat"><i class="ti ti-check-square"></i> 1 open</span>
-            </div>
+            <div class="project-card-stats"><span class="proj-stat"><i class="ti ti-git-branch"></i> 3 nodes</span></div>
             <div class="project-card-footer">
-              <div class="avatar-row">
-                <div class="avatar" style="background:var(--amber-bg);color:var(--amber-t)">ML</div>
-                <div class="avatar" style="background:var(--green-bg);color:var(--green-t)">JT</div>
-              </div>
+              <div class="avatar-row"><div class="avatar" style="background:var(--amber-bg);color:var(--amber-t)">ML</div></div>
               <span class="project-updated">3 days ago</span>
             </div>
           </div>
-          <div class="project-card">
-            <div class="project-card-top">
-              <div class="project-icon" style="background:var(--bg3)"><i class="ti ti-chart-arrows-vertical" style="color:var(--t2)"></i></div>
-              <div>
-                <div class="project-card-name">Q3 OKRs</div>
-                <div class="project-card-desc" style="font-size:11px;color:var(--t3)">Active · Tracking</div>
-              </div>
-            </div>
-            <div class="project-card-desc">Quarterly objectives and key results. Revenue, retention, NPS targets.</div>
-            <div class="project-card-stats">
-              <span class="proj-stat"><i class="ti ti-git-branch"></i> 6 nodes</span>
-              <span class="proj-stat"><i class="ti ti-check-square"></i> 0 open</span>
-            </div>
-            <div class="project-card-footer">
-              <div class="avatar-row">
-                <div class="avatar" style="background:var(--blue-bg);color:var(--blue-t)">SK</div>
-              </div>
-              <span class="project-updated">1 week ago</span>
-            </div>
-          </div>
         </div>
-
         <div class="section-label">Recently viewed</div>
         <div class="recent-list">
-          <div class="recent-item" onclick="switchPanel('meeting', document.querySelector('[onclick*=meeting]'))">
-            <i class="ti ti-microphone recent-item-icon" style="color:var(--red)"></i>
+          <div class="recent-item" onclick="switchPanel('meeting', null)">
+            <i class="ti ti-microphone" style="color:var(--red);font-size:14px"></i>
             <div class="recent-item-title">Product sync — live now</div>
             <div class="recent-item-project">Pricing v2</div>
             <div class="recent-item-time" style="color:var(--red);font-weight:500;">Live</div>
           </div>
-          <div class="recent-item" onclick="switchPanel('document', document.querySelector('[onclick*=document]'))">
-            <i class="ti ti-file-text recent-item-icon"></i>
-            <div class="recent-item-title">Pricing v2 brief — Option B deep dive</div>
+          <div class="recent-item" onclick="switchPanel('map', null)">
+            <i class="ti ti-git-branch" style="color:var(--t3);font-size:14px"></i>
+            <div class="recent-item-title">Pricing v2 strategy map</div>
             <div class="recent-item-project">Pricing v2</div>
             <div class="recent-item-time">2h ago</div>
-          </div>
-          <div class="recent-item">
-            <i class="ti ti-git-branch recent-item-icon"></i>
-            <div class="recent-item-title">Decision #D-16 — Billing infra timeline</div>
-            <div class="recent-item-project">Pricing v2</div>
-            <div class="recent-item-time">Yesterday</div>
-          </div>
-          <div class="recent-item">
-            <i class="ti ti-check-square recent-item-icon"></i>
-            <div class="recent-item-title">Q3 OKR review — final alignment</div>
-            <div class="recent-item-project">Q3 OKRs</div>
-            <div class="recent-item-time">3 days ago</div>
           </div>
         </div>
       </div>
@@ -825,535 +817,532 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 
     <!-- ════ STRATEGY MAP PANEL ════ -->
     <div class="panel active" id="panel-map">
+      <div id="changes-banner" class="changes-banner">
+        <i class="ti ti-sparkles"></i>
+        <span><strong>UX Change:</strong> Left nav is now a <strong>52px icon rail</strong> — no more feature labels. Context drawer shows workflow intent ("I'm working on…") instead of modes.</span>
+        <i class="ti ti-x changes-dismiss" onclick="document.getElementById('changes-banner').style.display='none'"></i>
+      </div>
       <div class="topbar">
         <div class="topbar-crumb">
-          <span>Pricing v2</span>
-          <i class="ti ti-chevron-right"></i>
-          <span style="color:var(--t1);font-weight:500">Strategy map</span>
+          <span style="color:var(--t3)">Pricing v2</span>
+          <i class="ti ti-chevron-right" style="font-size:11px;color:var(--t3)"></i>
+          <span>Strategy map</span>
         </div>
         <div class="topbar-spacer"></div>
-        <button class="topbar-btn"><i class="ti ti-share"></i> Share</button>
-        <button class="topbar-btn primary" onclick="alert('AI generating decision pathway...')"><i class="ti ti-sparkles"></i> Generate pathway</button>
+        <button class="topbar-btn"><i class="ti ti-filter"></i> Filter</button>
+        <button class="topbar-btn" id="replay-btn-top" onclick="toggleReplay(this)"><i class="ti ti-player-play"></i> Replay</button>
+        <button class="topbar-btn primary"><i class="ti ti-plus"></i> Add node</button>
       </div>
-      <div class="map-timeline">
-        <div class="timeline-label"><i class="ti ti-history"></i> Decision timeline</div>
-        <div class="timeline-track" id="timeline-track" onclick="scrubTimeline(event, this)">
-          <div class="timeline-fill" id="timeline-fill"></div>
-          <div class="timeline-thumb" id="timeline-thumb"></div>
-        </div>
-        <div class="timeline-date" id="timeline-date">Now</div>
-        <button class="timeline-replay-btn" id="replay-btn" onclick="toggleReplay(this)"><i class="ti ti-player-play"></i> Replay</button>
-      </div>
-      <div class="map-toolbar">
-        <button class="map-filter-btn on">All</button>
-        <button class="map-filter-btn"><i class="ti ti-circle-dot" style="color:var(--blue)"></i> Decisions</button>
-        <button class="map-filter-btn"><i class="ti ti-alert-triangle" style="color:var(--amber)"></i> Assumptions</button>
-        <button class="map-filter-btn"><i class="ti ti-x-mark" style="color:var(--red)"></i> Risks</button>
-        <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-          <div style="display:flex;gap:5px;align-items:center;padding-right:8px;border-right:0.5px solid var(--border)">
-            <span style="font-size:9.5px;color:var(--t3);text-transform:uppercase;letter-spacing:0.06em">States:</span>
-            <span class="node-lifecycle lc-exploring">exploring</span>
-            <span class="node-lifecycle lc-debated">debated</span>
-            <span class="node-lifecycle lc-blocked">blocked</span>
-            <span class="node-lifecycle lc-validated">validated</span>
-          </div>
-          <button class="map-filter-btn"><i class="ti ti-zoom-in"></i></button>
-          <button class="map-filter-btn"><i class="ti ti-zoom-out"></i></button>
-          <button class="map-filter-btn"><i class="ti ti-arrows-maximize"></i></button>
-        </div>
-      </div>
+
       <div class="map-layout">
-        <div class="map-canvas-wrap">
-          <div class="map-canvas">
-            <div class="node-tree">
-              <div class="node-row">
-                <div class="node n-done stale" onclick="selectNode('origin')" id="node-origin">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--t3)"></div><span class="node-type-label" style="color:var(--t3)">Origin</span><span class="node-lifecycle lc-archived" style="margin-left:auto">archived</span></div>
+        <!-- TOOLBAR with zoom levels — key cognitive load fix -->
+        <div class="map-toolbar">
+          <button class="map-filter-btn on"><i class="ti ti-layout-grid"></i> All types</button>
+          <button class="map-filter-btn"><i class="ti ti-check-square" style="color:var(--blue-t)"></i> Decisions</button>
+          <button class="map-filter-btn"><i class="ti ti-alert-triangle" style="color:var(--amber-t)"></i> Risks only</button>
+          <button class="map-filter-btn"><i class="ti ti-help-circle" style="color:var(--amber-t)"></i> Assumptions</button>
+
+          <!-- Zoom level selector — addresses cognitive load -->
+          <div class="zoom-level-bar" style="margin-left:auto">
+            <button class="zoom-btn" onclick="setZoom('executive', this)" title="Executive: decisions and blockers only">Exec</button>
+            <button class="zoom-btn active" onclick="setZoom('standard', this)" title="Standard: all nodes">Standard</button>
+            <button class="zoom-btn" onclick="setZoom('deep', this)" title="Deep: full detail + evidence">Deep</button>
+          </div>
+        </div>
+
+        <div class="map-body">
+          <div class="map-canvas-wrap">
+            <div class="map-canvas" id="map-canvas">
+
+              <!-- ZOOM LEVEL CALLOUT -->
+              <div id="zoom-callout" style="display:none;padding:8px 12px;background:var(--blue-bg);border:0.5px solid var(--blue);border-radius:8px;font-size:11.5px;color:var(--blue-t);margin-bottom:16px;max-width:480px">
+                <strong>Executive view:</strong> Showing only decisions, blocked nodes, and urgent risks. 4 nodes collapsed into clusters.
+              </div>
+
+              <!-- CLUSTER: Origin -->
+              <div class="node-tree">
+                <div id="node-origin" class="node n-origin" onclick="selectNode('origin')">
+                  <div class="node-type-row">
+                    <div class="node-type-dot" style="background:var(--t3)"></div>
+                    <span class="node-type-label" style="color:var(--t3)">Origin event</span>
+                  </div>
                   <div class="node-title">Q2 revenue miss</div>
-                  <div class="node-sub">3/5 exit interviews cite pricing confusion</div>
-                  <div class="node-tags"><span class="ntag" style="background:var(--bg3);color:var(--t3)">May 2025</span></div>
+                  <div class="node-sub">18% below target. 3/5 exits cited pricing confusion.</div>
                   <div class="node-meta-row">
-                    <span class="node-meta-item"><i class="ti ti-link"></i> 1 child</span>
-                    <span class="evidence-badge" onclick="event.stopPropagation(); alert('5 meeting signals generated this node')"><i class="ti ti-message-2"></i> 5 signals</span>
+                    <span class="node-meta-item"><i class="ti ti-calendar"></i> May 2</span>
+                    <span class="node-meta-item"><i class="ti ti-users"></i> Leadership</span>
                   </div>
                 </div>
-              </div>
-              <div class="n-connector"></div>
-              <div class="node-row">
-                <div class="node n-decision sel weight-xl hot-debate" id="node-decision1" onclick="selectNode('decision1')">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--blue)"></div><span class="node-type-label" style="color:var(--blue-t)">Decision</span><span class="node-lifecycle lc-debated" style="margin-left:auto">debated</span></div>
+
+                <div class="n-connector"></div>
+
+                <!-- Core decision -->
+                <div id="node-decision1" class="node n-decision hot-debate" onclick="selectNode('decision1')">
+                  <div class="node-type-row">
+                    <div class="node-type-dot" style="background:var(--blue)"></div>
+                    <span class="node-type-label" style="color:var(--blue-t)">Decision</span>
+                    <span class="node-lifecycle lc-debated" style="margin-left:auto">Debated</span>
+                  </div>
                   <div class="node-title">Restructure pricing tiers</div>
-                  <div class="node-sub">Feature-gated → usage-based</div>
-                  <div class="node-tags"><span class="ntag" style="background:var(--blue-bg);color:var(--blue-t)">Open</span><span class="ntag" style="background:var(--amber-bg);color:var(--amber-t)">High impact</span></div>
+                  <div class="node-sub">Usage-based vs seat model</div>
                   <div class="node-confidence">
-                    <span class="conf-label">AI conf.</span>
-                    <div class="conf-bar"><div class="conf-fill" style="width:62%;background:var(--amber)"></div></div>
-                    <span style="font-size:9.5px;color:var(--amber-t);font-family:var(--mono)">62%</span>
+                    <span class="conf-label">Align.</span>
+                    <div class="conf-bar"><div class="conf-fill" style="width:45%;background:var(--red)"></div></div>
+                    <span style="font-size:9.5px;color:var(--red-t);font-family:var(--mono)">45%</span>
                   </div>
                   <div class="node-meta-row">
-                    <span class="node-meta-item"><i class="ti ti-users"></i> 3</span>
-                    <span class="node-meta-item"><i class="ti ti-git-branch"></i> 3 opts</span>
-                    <span class="evidence-badge" onclick="event.stopPropagation(); alert('Generated from 12 meeting signals across 3 meetings')"><i class="ti ti-message-2"></i> 12</span>
+                    <span class="node-meta-item"><i class="ti ti-user"></i> Sarah K.</span>
+                    <div class="evidence-badge"><i class="ti ti-message-2"></i> 12</div>
+                  </div>
+                </div>
+
+                <div class="n-connector"></div>
+
+                <!-- OPTIONS CLUSTER — collapsed by default at exec zoom, expandable -->
+                <div id="cluster-options" class="cluster-group" style="max-width:580px">
+                  <div class="cluster-header">
+                    <span class="cluster-label">Options</span>
+                    <span class="cluster-count">3 options</span>
+                    <button class="cluster-collapse-btn" onclick="toggleCluster('cluster-options-body', this)">
+                      <i class="ti ti-chevron-up"></i> Collapse
+                    </button>
+                  </div>
+                  <div id="cluster-options-body">
+                    <div class="node-row">
+                      <div id="node-opt-a" class="node" onclick="selectNode('opt-a')">
+                        <div class="node-type-row">
+                          <div class="node-type-dot" style="background:var(--cyan)"></div>
+                          <span class="node-type-label" style="color:var(--cyan)">Option A</span>
+                        </div>
+                        <div class="node-title">Seat-based + overages</div>
+                        <div class="node-sub">Lowest disruption. Easier for Finance.</div>
+                        <div class="node-tags"><span class="ntag" style="background:var(--bg4);color:var(--t3)">Safe</span></div>
+                      </div>
+                      <div id="node-opt-b" class="node ai-recommended" onclick="selectNode('opt-b')">
+                        <div class="node-type-row">
+                          <div class="node-type-dot" style="background:var(--cyan)"></div>
+                          <span class="node-type-label" style="color:var(--cyan)">Option B</span>
+                          <span style="font-size:9px;background:var(--blue-bg);color:var(--blue-t);padding:1px 5px;border-radius:3px;margin-left:auto">AI rec</span>
+                        </div>
+                        <div class="node-title">Pure usage-based</div>
+                        <div class="node-sub">Credits model. Industry-validated for segment.</div>
+                        <div class="node-tags"><span class="ntag" style="background:var(--blue-bg);color:var(--blue-t)">Recommended</span></div>
+                      </div>
+                      <div id="node-opt-c" class="node" onclick="selectNode('opt-c')">
+                        <div class="node-type-row">
+                          <div class="node-type-dot" style="background:var(--cyan)"></div>
+                          <span class="node-type-label" style="color:var(--cyan)">Option C</span>
+                        </div>
+                        <div class="node-title">Value-based pricing</div>
+                        <div class="node-sub">% of outcomes. Needs new infra.</div>
+                        <div class="node-tags"><span class="ntag" style="background:var(--red-bg);color:var(--red-t)">High effort</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="n-connector"></div>
+
+                <!-- ASSUMPTIONS CLUSTER -->
+                <div id="cluster-assumptions" class="cluster-group" style="max-width:480px">
+                  <div class="cluster-header">
+                    <span class="cluster-label" style="color:var(--amber-t)">Assumptions</span>
+                    <span class="cluster-count">2 · 1 likely false</span>
+                    <button class="cluster-collapse-btn" onclick="toggleCluster('cluster-assumptions-body', this)">
+                      <i class="ti ti-chevron-up"></i> Collapse
+                    </button>
+                  </div>
+                  <div id="cluster-assumptions-body">
+                    <div class="node-row">
+                      <div id="node-assumption1" class="node n-assumption" onclick="selectNode('assumption1')">
+                        <div class="node-type-row">
+                          <div class="node-type-dot" style="background:var(--amber)"></div>
+                          <span class="node-type-label" style="color:var(--amber-t)">Assumption</span>
+                          <span class="node-lifecycle lc-exploring" style="margin-left:auto">Unverified</span>
+                        </div>
+                        <div class="node-title">SMB accepts metered billing</div>
+                        <div class="node-sub">No survey data yet</div>
+                        <div class="node-confidence">
+                          <span class="conf-label">Evidence</span>
+                          <div class="conf-bar"><div class="conf-fill" style="width:22%;background:var(--amber)"></div></div>
+                          <span style="font-size:9.5px;color:var(--amber-t);font-family:var(--mono)">low</span>
+                        </div>
+                        <div class="node-meta-row">
+                          <span class="node-meta-item"><i class="ti ti-user"></i> Sarah K.</span>
+                          <div class="evidence-badge"><i class="ti ti-message-2"></i> 4</div>
+                        </div>
+                      </div>
+                      <div id="node-assumption2" class="node n-assumption st-blocked" onclick="selectNode('assumption2')">
+                        <div class="node-type-row">
+                          <div class="node-type-dot" style="background:var(--amber)"></div>
+                          <span class="node-type-label" style="color:var(--amber-t)">Assumption</span>
+                          <span class="node-lifecycle lc-blocked" style="margin-left:auto">False</span>
+                        </div>
+                        <div class="node-title">Engineering ships in 6 weeks</div>
+                        <div class="node-sub">James flagged billing infra risk</div>
+                        <div class="node-confidence">
+                          <span class="conf-label">Evidence</span>
+                          <div class="conf-bar"><div class="conf-fill" style="width:8%;background:var(--red)"></div></div>
+                          <span style="font-size:9.5px;color:var(--red-t);font-family:var(--mono)">disproved</span>
+                        </div>
+                        <div class="node-meta-row">
+                          <span class="node-meta-item" style="color:var(--red-t)"><i class="ti ti-alert-triangle"></i> D-16 blocked</span>
+                          <div class="evidence-badge"><i class="ti ti-message-2"></i> 6</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div><!-- /node-tree -->
+            </div>
+          </div>
+
+          <!-- Detail panel -->
+          <div class="map-detail">
+            <div class="inspector-header">
+              <div class="inspector-title" id="detail-title">Restructure pricing tiers</div>
+              <div class="inspector-subtitle">
+                <span id="detail-owner" style="color:var(--t2)">Sarah K.</span>
+                <span style="margin:0 5px">·</span>
+                <span style="font-family:var(--mono);font-size:10.5px">Updated today, 9:14 AM</span>
+              </div>
+            </div>
+            <div class="map-detail-tabs">
+              <button class="md-tab active" onclick="switchDetailTab('detail', this)">Detail</button>
+              <button class="md-tab" onclick="switchDetailTab('inspector', this)">Context</button>
+              <button class="md-tab" onclick="switchDetailTab('risks', this)">Risks</button>
+              <button class="md-tab" onclick="switchDetailTab('transcript', this)">Live <span style="font-size:9px;background:var(--red-bg);color:var(--red-t);padding:1px 4px;border-radius:4px;margin-left:2px;">●</span></button>
+            </div>
+            <div class="md-body" id="md-detail-body">
+              <div class="md-section">
+                <div class="md-section-label">Context</div>
+                <div class="md-value" id="detail-context">Triggered by Q2 miss. Three exit interviews cited pricing confusion. Exec alignment partial. Engineering capacity unclear.</div>
+              </div>
+              <div class="md-divider"></div>
+              <div class="md-section">
+                <div class="md-section-label">Confidence</div>
+                <div style="display:flex;flex-direction:column;gap:5px;margin-top:4px">
+                  <div style="display:flex;align-items:center;gap:7px">
+                    <span style="font-size:10.5px;color:var(--t3);width:80px">AI confidence</span>
+                    <div class="conf-bar" style="flex:1;height:4px"><div class="conf-fill" style="width:62%;background:var(--amber)"></div></div>
+                    <span style="font-size:10.5px;color:var(--amber-t);font-family:var(--mono);width:28px">62%</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:7px">
+                    <span style="font-size:10.5px;color:var(--t3);width:80px">Stakeholder</span>
+                    <div class="conf-bar" style="flex:1;height:4px"><div class="conf-fill" style="width:45%;background:var(--red)"></div></div>
+                    <span style="font-size:10.5px;color:var(--red-t);font-family:var(--mono);width:28px">45%</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:7px">
+                    <span style="font-size:10.5px;color:var(--t3);width:80px">Evidence</span>
+                    <div class="conf-bar" style="flex:1;height:4px"><div class="conf-fill" style="width:74%;background:var(--blue)"></div></div>
+                    <span style="font-size:10.5px;color:var(--blue-t);font-family:var(--mono);width:28px">74%</span>
                   </div>
                 </div>
               </div>
-              <div class="n-branch">
-                <div class="n-branch-arm"></div>
-                <div class="n-branch-arm"></div>
-                <div class="n-branch-arm"></div>
+              <div class="md-divider"></div>
+              <div class="md-section">
+                <div class="md-section-label" style="margin-bottom:6px">AI questions</div>
+                <div class="ai-q"><i class="ti ti-help-circle"></i>What happens to existing annual contract customers?</div>
+                <div class="ai-q"><i class="ti ti-help-circle"></i>What data validates SMB accepts metered billing?</div>
+                <div class="ai-q"><i class="ti ti-help-circle"></i>What's the competitive risk of moving first?</div>
               </div>
-              <div class="node-row">
-                <div class="node n-opportunity weight-sm" onclick="selectNode('opt-a')">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--green)"></div><span class="node-type-label" style="color:var(--green-t)">Option A</span><span class="node-lifecycle lc-exploring" style="margin-left:auto">exploring</span></div>
-                  <div class="node-title">Seat-based + overages</div>
-                  <div class="node-sub">Keep seats, add usage caps</div>
-                  <div class="node-tags"><span class="ntag" style="background:var(--green-bg);color:var(--green-t)">Low risk</span></div>
-                  <div class="node-confidence">
-                    <span class="conf-label">AI conf.</span>
-                    <div class="conf-bar"><div class="conf-fill" style="width:34%;background:var(--green)"></div></div>
-                    <span style="font-size:9.5px;color:var(--green-t);font-family:var(--mono)">34%</span>
-                  </div>
-                  <div class="node-meta-row">
-                    <span class="node-meta-item"><i class="ti ti-users"></i> 1 supporter</span>
-                    <span class="evidence-badge" onclick="event.stopPropagation();"><i class="ti ti-message-2"></i> 3</span>
-                  </div>
-                </div>
-                <div class="node n-decision ai-recommended weight-xl" onclick="selectNode('opt-b')">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--blue)"></div><span class="node-type-label" style="color:var(--blue-t)">Option B</span><span class="node-lifecycle lc-validated" style="margin-left:auto">validated</span></div>
-                  <div class="node-title">Pure usage-based</div>
-                  <div class="node-sub">Credits model, consume as you go</div>
-                  <div class="node-tags"><span class="ntag" style="background:var(--blue-bg);color:var(--blue-t)">AI rec.</span></div>
-                  <div class="node-confidence">
-                    <span class="conf-label">AI conf.</span>
-                    <div class="conf-bar"><div class="conf-fill" style="width:78%;background:var(--blue)"></div></div>
-                    <span style="font-size:9.5px;color:var(--blue-t);font-family:var(--mono)">78%</span>
-                  </div>
-                  <div class="node-meta-row">
-                    <span class="node-meta-item"><i class="ti ti-users"></i> 2 support</span>
-                    <span class="evidence-badge" onclick="event.stopPropagation(); alert('Generated from 9 meeting signals')"><i class="ti ti-message-2"></i> 9</span>
-                  </div>
-                </div>
-                <div class="node n-risk weight-sm" onclick="selectNode('opt-c')">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--red)"></div><span class="node-type-label" style="color:var(--red-t)">Option C</span><span class="node-lifecycle lc-blocked" style="margin-left:auto">blocked</span></div>
-                  <div class="node-title">Value-based pricing</div>
-                  <div class="node-sub">% of customer outcome</div>
-                  <div class="node-tags"><span class="ntag" style="background:var(--red-bg);color:var(--red-t)">High risk</span></div>
-                  <div class="node-confidence">
-                    <span class="conf-label">AI conf.</span>
-                    <div class="conf-bar"><div class="conf-fill" style="width:18%;background:var(--red)"></div></div>
-                    <span style="font-size:9.5px;color:var(--red-t);font-family:var(--mono)">18%</span>
-                  </div>
-                  <div class="node-meta-row">
-                    <span class="node-meta-item"><i class="ti ti-alert-triangle"></i> infra gap</span>
-                    <span class="evidence-badge"><i class="ti ti-message-2"></i> 2</span>
-                  </div>
-                </div>
-              </div>
-              <div class="n-connector"></div>
-              <div class="node-row" style="gap:12px">
-                <div class="node n-assumption hot-debate" onclick="selectNode('assumption1')" style="width:190px" id="node-assumption1">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--amber)"></div><span class="node-type-label" style="color:var(--amber-t)">Assumption</span><span class="node-lifecycle lc-debated" style="margin-left:auto">debated</span></div>
-                  <div class="node-title">SMB accepts metered billing</div>
-                  <div class="node-sub">Unvalidated — needs survey</div>
-                  <div class="node-tags"><span class="ntag" style="background:var(--amber-bg);color:var(--amber-t)">Unverified</span><span class="ntag" style="background:var(--red-bg);color:var(--red-t)">Critical</span></div>
-                  <div class="node-confidence">
-                    <span class="conf-label">Evidence</span>
-                    <div class="conf-bar"><div class="conf-fill" style="width:20%;background:var(--amber)"></div></div>
-                    <span style="font-size:9.5px;color:var(--amber-t);font-family:var(--mono)">weak</span>
-                  </div>
-                  <div class="node-meta-row">
-                    <span class="node-meta-item"><i class="ti ti-users"></i> 2 debating</span>
-                    <span class="evidence-badge"><i class="ti ti-message-2"></i> 4</span>
-                  </div>
-                </div>
-                <div class="node n-assumption st-blocked" onclick="selectNode('assumption2')" style="width:190px" id="node-assumption2">
-                  <div class="node-type-row"><div class="node-type-dot" style="background:var(--amber)"></div><span class="node-type-label" style="color:var(--amber-t)">Assumption</span><span class="node-lifecycle lc-blocked" style="margin-left:auto">blocked</span></div>
-                  <div class="node-title">Engineering ships in 6 weeks</div>
-                  <div class="node-sub">James flagged billing infra risk</div>
-                  <div class="node-tags"><span class="ntag" style="background:var(--red-bg);color:var(--red-t)">Likely false</span></div>
-                  <div class="node-confidence">
-                    <span class="conf-label">Evidence</span>
-                    <div class="conf-bar"><div class="conf-fill" style="width:8%;background:var(--red)"></div></div>
-                    <span style="font-size:9.5px;color:var(--red-t);font-family:var(--mono)">disproved</span>
-                  </div>
-                  <div class="node-meta-row">
-                    <span class="node-meta-item" style="color:var(--red-t)"><i class="ti ti-alert-triangle"></i> D-16 blocked</span>
-                    <span class="evidence-badge"><i class="ti ti-message-2"></i> 6</span>
-                  </div>
+              <div class="md-divider"></div>
+              <div class="md-section">
+                <div class="md-section-label">Sources</div>
+                <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:2px">
+                  <div class="evidence-badge"><i class="ti ti-brand-slack"></i> Slack #pricing</div>
+                  <div class="evidence-badge"><i class="ti ti-notes"></i> Notion brief</div>
+                  <div class="evidence-badge"><i class="ti ti-microphone"></i> Product sync</div>
+                  <div class="evidence-badge"><i class="ti ti-chart-dots"></i> PRICE-24</div>
                 </div>
               </div>
             </div>
+
+            <div class="md-body" id="md-inspector-body" style="display:none">
+              <div class="md-section">
+                <div class="md-section-label" style="margin-bottom:6px">Relationship context</div>
+                <div style="display:flex;flex-direction:column;gap:2px">
+                  <div style="display:flex;align-items:center;gap:7px;padding:5px 0;font-size:12px;color:var(--t2);border-bottom:0.5px solid var(--border)">
+                    <div style="width:7px;height:7px;border-radius:50%;background:var(--amber);flex-shrink:0"></div>SMB accepts metered billing
+                    <span style="font-size:10px;color:var(--t3);margin-left:auto">depends on</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:7px;padding:5px 0;font-size:12px;color:var(--t2);border-bottom:0.5px solid var(--border)">
+                    <div style="width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0"></div>Engineering ships in 6 weeks
+                    <span style="font-size:10px;color:var(--t3);margin-left:auto">blocks</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:7px;padding:5px 0;font-size:12px;color:var(--t2)">
+                    <div style="width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0"></div>D-16 · Billing infra timeline
+                    <span style="font-size:10px;color:var(--t3);margin-left:auto">blocked by</span>
+                  </div>
+                </div>
+              </div>
+              <div class="md-divider"></div>
+              <div class="md-section">
+                <div class="md-section-label" style="margin-bottom:6px">Team dynamics</div>
+                <div class="team-member">
+                  <div class="tm-avatar" style="background:var(--blue-bg);color:var(--blue-t)">SK</div>
+                  <div class="tm-body"><div class="tm-name">Sarah K.</div><div class="tm-stance"><span class="tm-stance-badge stance-supports">Supports</span>Option B — credits model</div></div>
+                </div>
+                <div class="team-member">
+                  <div class="tm-avatar" style="background:var(--green-bg);color:var(--green-t)">JT</div>
+                  <div class="tm-body"><div class="tm-name">James T.</div><div class="tm-stance"><span class="tm-stance-badge stance-blocks">Blocks</span>Stripe billing infra blocker</div></div>
+                </div>
+                <div class="team-member">
+                  <div class="tm-avatar" style="background:var(--amber-bg);color:var(--amber-t)">ML</div>
+                  <div class="tm-body"><div class="tm-name">Mia L.</div><div class="tm-stance"><span class="tm-stance-badge stance-concern">Concern</span>Revenue predictability risk</div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="md-body" id="md-risks-body" style="display:none">
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <div style="display:flex;gap:6px;font-size:12px;color:var(--t2);align-items:flex-start;padding:6px 0;border-bottom:0.5px solid var(--border)">
+                  <i class="ti ti-alert-triangle" style="color:var(--red-t);font-size:13px;flex-shrink:0;margin-top:1px"></i>
+                  <span>Stripe billing infra is a blocker. James flagged in Slack. D-16 cannot proceed.</span>
+                </div>
+                <div style="display:flex;gap:6px;font-size:12px;color:var(--t2);align-items:flex-start;padding:6px 0;border-bottom:0.5px solid var(--border)">
+                  <i class="ti ti-alert-triangle" style="color:var(--amber-t);font-size:13px;flex-shrink:0;margin-top:1px"></i>
+                  <span>SMB acceptance unvalidated. No survey data. High dependency for Option B.</span>
+                </div>
+                <div style="display:flex;gap:6px;font-size:12px;color:var(--t2);align-items:flex-start;padding:6px 0">
+                  <i class="ti ti-info-circle" style="color:var(--t3);font-size:13px;flex-shrink:0;margin-top:1px"></i>
+                  <span>Finance concern about revenue predictability in Usage-based models.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="md-body" id="md-transcript-body" style="display:none">
+              <div style="font-size:11.5px;color:var(--t3);margin-bottom:8px">Live meeting signals — pinned to this decision:</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="background:var(--bg2);border-radius:var(--r);padding:8px 10px;border:0.5px solid var(--border)">
+                  <div style="font-size:10.5px;color:var(--blue-t);margin-bottom:3px;font-weight:500">James · 12:04</div>
+                  <div style="font-size:12px;color:var(--t2);line-height:1.45">"if we ship Option B without a pilot we have no rollback plan"</div>
+                  <div style="display:flex;gap:5px;margin-top:6px"><span style="font-size:10px;background:var(--red-bg);color:var(--red-t);padding:1px 6px;border-radius:4px">risk</span></div>
+                </div>
+                <div style="background:var(--bg2);border-radius:var(--r);padding:8px 10px;border:0.5px solid var(--border)">
+                  <div style="font-size:10.5px;color:var(--blue-t);margin-bottom:3px;font-weight:500">Sarah · 12:06</div>
+                  <div style="font-size:12px;color:var(--t2);line-height:1.45">"what about a 30-day grandfather period for enterprise instead of 12 months?"</div>
+                  <div style="display:flex;gap:5px;margin-top:6px"><span style="font-size:10px;background:var(--blue-bg);color:var(--blue-t);padding:1px 6px;border-radius:4px">decision point</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ai-bar">
+              <i class="ti ti-sparkles"></i>
+              <input class="ai-input" placeholder="Ask about this decision…">
+              <button class="ai-send"><i class="ti ti-send"></i> Ask</button>
+            </div>
+          </div>
+        </div><!-- /map-body -->
+
+        <!-- Transcript drawer -->
+        <div class="transcript-drawer closed" id="transcript-drawer">
+          <div class="td-header" onclick="toggleDrawer()">
+            <div class="td-rec"></div>
+            <span class="td-title">Live transcript</span>
+            <span style="font-size:11px;color:var(--t3);margin-left:6px" id="td-count">7 signals captured</span>
+            <span class="td-timer" id="td-timer">12:08</span>
+            <i class="ti ti-chevron-right td-chevron" id="td-chevron"></i>
+          </div>
+          <div class="td-scroll" id="td-scroll">
+            <div class="td-line"><span class="td-speaker">Sarah</span><span class="td-text">"Option B is the right long-term move even if painful short-term"</span><span class="td-flag" style="background:var(--blue-bg);color:var(--blue-t)">decision</span><span class="td-pin"><i class="ti ti-map-pin"></i></span></div>
+            <div class="td-line"><span class="td-speaker">James</span><span class="td-text">"Stripe billing infra will take 10 weeks minimum, not 6"</span><span class="td-flag" style="background:var(--red-bg);color:var(--red-t)">risk</span><span class="td-pin"><i class="ti ti-map-pin"></i></span></div>
+            <div class="td-line"><span class="td-speaker">Mia</span><span class="td-text">"Can we run a limited pilot with 20 SMB accounts first?"</span><span class="td-pin"><i class="ti ti-map-pin"></i></span></div>
           </div>
         </div>
 
-        <!-- Detail panel / Strategic Inspector -->
-        <div class="map-detail">
-          <div class="inspector-header">
-            <div class="inspector-title" id="detail-title">Restructure pricing tiers</div>
-            <div class="inspector-subtitle">
-              <span id="detail-owner" style="color:var(--t2)">Sarah K.</span>
-              <span style="margin:0 5px">·</span>
-              <span style="font-family:var(--mono);font-size:10.5px">Updated today, 9:14 AM</span>
-            </div>
+        <!-- Timeline -->
+        <div class="map-timeline">
+          <span class="timeline-label">Decision history</span>
+          <div class="timeline-track" onclick="scrubTimeline(event, this)" onmousemove="if(event.buttons===1)scrubTimeline(event,this)">
+            <div class="timeline-fill" id="timeline-fill"></div>
+            <div class="timeline-thumb" id="timeline-thumb"></div>
           </div>
-          <div class="map-detail-tabs">
-            <button class="md-tab active" onclick="switchDetailTab('detail', this)">Detail</button>
-            <button class="md-tab" onclick="switchDetailTab('inspector', this)">Inspector</button>
-            <button class="md-tab" onclick="switchDetailTab('risks', this)">Risks</button>
-            <button class="md-tab" onclick="switchDetailTab('transcript', this)">Live <span style="font-size:9px;background:var(--red-bg);color:var(--red-t);padding:1px 4px;border-radius:4px;margin-left:2px;">●</span></button>
-          </div>
-          <div class="md-body" id="md-detail-body">
-            <div class="md-section">
-              <div class="md-section-label">Context</div>
-              <div class="md-value" id="detail-context">Triggered by Q2 miss. Three exit interviews cited pricing confusion. Exec alignment partial. Engineering capacity unclear.</div>
-            </div>
-            <div class="md-divider"></div>
-            <div class="md-section">
-              <div class="md-section-label">Confidence</div>
-              <div style="display:flex;flex-direction:column;gap:5px;margin-top:4px">
-                <div style="display:flex;align-items:center;gap:7px">
-                  <span style="font-size:10.5px;color:var(--t3);width:80px">AI confidence</span>
-                  <div class="conf-bar" style="flex:1;height:4px"><div class="conf-fill" style="width:62%;background:var(--amber)"></div></div>
-                  <span style="font-size:10.5px;color:var(--amber-t);font-family:var(--mono);width:28px">62%</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:7px">
-                  <span style="font-size:10.5px;color:var(--t3);width:80px">Stakeholder align.</span>
-                  <div class="conf-bar" style="flex:1;height:4px"><div class="conf-fill" style="width:45%;background:var(--red)"></div></div>
-                  <span style="font-size:10.5px;color:var(--red-t);font-family:var(--mono);width:28px">45%</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:7px">
-                  <span style="font-size:10.5px;color:var(--t3);width:80px">Evidence density</span>
-                  <div class="conf-bar" style="flex:1;height:4px"><div class="conf-fill" style="width:74%;background:var(--blue)"></div></div>
-                  <span style="font-size:10.5px;color:var(--blue-t);font-family:var(--mono);width:28px">74%</span>
-                </div>
-              </div>
-            </div>
-            <div class="md-divider"></div>
-            <div class="md-section">
-              <div class="md-section-label" style="margin-bottom:6px">AI questions</div>
-              <div id="detail-questions">
-                <div class="ai-q" onclick="alert('Sending to AI...')"><i class="ti ti-help-circle"></i>What happens to existing annual contract customers?</div>
-                <div class="ai-q" onclick="alert('Sending to AI...')"><i class="ti ti-help-circle"></i>What data validates SMB accepts metered billing?</div>
-                <div class="ai-q" onclick="alert('Sending to AI...')"><i class="ti ti-help-circle"></i>What's the competitive risk of moving first?</div>
-              </div>
-            </div>
-            <div class="md-divider"></div>
-            <div class="md-section">
-              <div class="md-section-label">Sources</div>
-              <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:2px">
-                <div class="evidence-badge"><i class="ti ti-brand-slack"></i> Slack #pricing</div>
-                <div class="evidence-badge"><i class="ti ti-notes"></i> Notion brief</div>
-                <div class="evidence-badge"><i class="ti ti-microphone"></i> Product sync</div>
-                <div class="evidence-badge"><i class="ti ti-chart-dots"></i> PRICE-24</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- STRATEGIC INSPECTOR TAB -->
-          <div class="md-body" id="md-inspector-body" style="display:none">
-            <div class="md-section">
-              <div class="md-section-label" style="margin-bottom:6px">Relationship context</div>
-              <div class="impact-node" onclick="selectNode('assumption1')">
-                <div class="impact-dot" style="background:var(--amber)"></div>
-                SMB accepts metered billing
-                <span class="impact-rel">depends on</span>
-              </div>
-              <div class="impact-node" onclick="selectNode('assumption2')">
-                <div class="impact-dot" style="background:var(--red)"></div>
-                Engineering ships in 6 weeks
-                <span class="impact-rel">blocks</span>
-              </div>
-              <div class="impact-node">
-                <div class="impact-dot" style="background:var(--blue)"></div>
-                D-16 · Billing infra timeline
-                <span class="impact-rel">blocked by</span>
-              </div>
-              <div class="kpi-row" style="margin-top:8px">
-                <span class="kpi-pill"><i class="ti ti-trending-up" style="font-size:10px"></i> ARR impact</span>
-                <span class="kpi-pill"><i class="ti ti-users" style="font-size:10px"></i> SMB retention</span>
-                <span class="kpi-pill"><i class="ti ti-calendar" style="font-size:10px"></i> Q3 roadmap</span>
-              </div>
-            </div>
-            <div class="md-divider"></div>
-            <div class="md-section">
-              <div class="md-section-label" style="margin-bottom:6px">Historical intelligence</div>
-              <div class="history-item">
-                <div class="history-item-label">Similar past decision</div>
-                <div class="history-item-text">Seat model migration failed Q4 '23 — caused churn spike in mid-market</div>
-                <div class="history-item-source">Post-mortem · Nov 2023</div>
-              </div>
-              <div class="history-item">
-                <div class="history-item-label">Related meeting reference</div>
-                <div class="history-item-text">Pricing committee meeting — Sarah proposed gradual rollout over hard cutover</div>
-                <div class="history-item-source">All hands · Apr 28</div>
-              </div>
-              <div class="history-item">
-                <div class="history-item-label">Previous attempt</div>
-                <div class="history-item-text">Usage-based proposal rejected by Finance in 2022 — predictability concerns</div>
-                <div class="history-item-source">Finance review · Q2 '22</div>
-              </div>
-            </div>
-            <div class="md-divider"></div>
-            <div class="md-section">
-              <div class="md-section-label" style="margin-bottom:6px">Team dynamics</div>
-              <div class="team-member">
-                <div class="tm-avatar" style="background:var(--blue-bg);color:var(--blue-t)">SK</div>
-                <div class="tm-body">
-                  <div class="tm-name">Sarah K.</div>
-                  <div class="tm-stance"><span class="tm-stance-badge stance-supports">supports</span>Option B with pilot cohort</div>
-                </div>
-              </div>
-              <div class="team-member">
-                <div class="tm-avatar" style="background:var(--green-bg);color:var(--green-t)">JT</div>
-                <div class="tm-body">
-                  <div class="tm-name">James T.</div>
-                  <div class="tm-stance"><span class="tm-stance-badge stance-blocks">blocks</span>Infra not ready — 6-week gap</div>
-                </div>
-              </div>
-              <div class="team-member">
-                <div class="tm-avatar" style="background:var(--amber-bg);color:var(--amber-t)">ML</div>
-                <div class="tm-body">
-                  <div class="tm-name">Mia L.</div>
-                  <div class="tm-stance"><span class="tm-stance-badge stance-supports">supports</span>Model first, build second</div>
-                </div>
-              </div>
-              <div class="team-member">
-                <div class="tm-avatar" style="background:var(--red-bg);color:var(--red-t)">FN</div>
-                <div class="tm-body">
-                  <div class="tm-name">Finance (unresolved)</div>
-                  <div class="tm-stance"><span class="tm-stance-badge stance-concern">concern</span>Revenue predictability risk</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="md-body" id="md-risks-body" style="display:none">
-            <div class="md-section">
-              <div class="md-section-label">Risk register</div>
-              <div class="risk-row"><i class="ti ti-alert-triangle" style="color:var(--red-t)"></i>Engineering billing infra not ready — Decision #16 blocked</div>
-              <div class="risk-row"><i class="ti ti-alert-triangle" style="color:var(--amber-t)"></i>Revenue predictability drops during transition period</div>
-              <div class="risk-row"><i class="ti ti-alert-triangle" style="color:var(--amber-t)"></i>SMB churn if metered pricing causes bill shock</div>
-              <div class="risk-row"><i class="ti ti-info-circle" style="color:var(--blue-t)"></i>Competitor may counter with flat-rate enterprise offer</div>
-              <div class="risk-row"><i class="ti ti-info-circle" style="color:var(--blue-t)"></i>Annual contract holders need migration path before GA</div>
-            </div>
-          </div>
-          <div class="md-body" id="md-transcript-body" style="display:none">
-            <div class="md-section">
-              <div class="md-section-label">Live from meeting</div>
-              <div style="font-size:11px;color:var(--t3);margin-bottom:8px">Generated from <strong style="color:var(--blue-t)">4 meeting signals</strong> · Product sync</div>
-              <div style="display:flex;flex-direction:column;gap:8px;" id="live-transcript-detail">
-                <div class="td-line">
-                  <span class="td-speaker">Sarah</span>
-                  <span class="td-text">"enterprise buyers hate surprise invoices at month end"</span>
-                </div>
-                <div class="td-line">
-                  <span class="td-speaker">James</span>
-                  <span class="td-text">"billing infra needs separate keys per customer, adds 2 weeks" <span class="ntag" style="background:var(--red-bg);color:var(--red-t);font-size:10px">blocker</span></span>
-                </div>
-                <div class="td-line">
-                  <span class="td-speaker">Mia</span>
-                  <span class="td-text">"should we pilot with 50 customers before GA?" <span class="ntag" style="background:var(--amber-bg);color:var(--amber-t);font-size:10px">assumption</span></span>
-                </div>
-                <div class="td-line">
-                  <span class="td-speaker">Sarah</span>
-                  <span class="td-text">"competitor just went flat-rate enterprise — does that change Option B?"</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <span class="timeline-date" id="timeline-date">Now</span>
+          <button class="replay-btn" id="replay-btn" onclick="toggleReplay(this)"><i class="ti ti-player-play"></i> Replay</button>
         </div>
-      </div>
-
-      <!-- Transcript drawer -->
-      <div class="transcript-drawer closed" id="transcript-drawer">
-        <div class="td-header" onclick="toggleDrawer()">
-          <div class="td-rec"></div>
-          <span class="td-title">Live transcript · Product sync</span>
-          <span style="font-size:11px;color:var(--t3);margin-left:8px" id="td-count">4 signals captured</span>
-          <span class="td-timer" id="td-timer">12:08</span>
-          <i class="ti ti-chevron-right td-chevron" id="td-chevron"></i>
-        </div>
-        <div class="td-scroll" id="td-scroll">
-          <div class="td-line">
-            <span class="td-speaker">Sarah</span>
-            <span class="td-text">"enterprise buyers hate surprise invoices at month end"</span>
-            <span class="td-flag" style="background:var(--amber-bg);color:var(--amber-t)">assumption</span>
-            <span class="td-pin" title="Pin to map"><i class="ti ti-map-pin"></i></span>
-          </div>
-          <div class="td-line">
-            <span class="td-speaker">James</span>
-            <span class="td-text">"billing infra needs separate keys — that's a db migration, adds 2 weeks minimum"</span>
-            <span class="td-flag" style="background:var(--red-bg);color:var(--red-t)">blocker</span>
-            <span class="td-pin" title="Pin to map"><i class="ti ti-map-pin"></i></span>
-          </div>
-          <div class="td-line">
-            <span class="td-speaker">Mia</span>
-            <span class="td-text">"should we pilot with 50 customers before full GA?"</span>
-            <span class="td-flag" style="background:var(--blue-bg);color:var(--blue-t)">decision</span>
-            <span class="td-pin" title="Pin to map"><i class="ti ti-map-pin"></i></span>
-          </div>
-          <div class="td-line">
-            <span class="td-speaker">Sarah</span>
-            <span class="td-text">"competitor just went flat-rate enterprise — revisit Option B risk before committing"</span>
-            <span class="td-flag" style="background:var(--red-bg);color:var(--red-t)">risk</span>
-            <span class="td-pin" title="Pin to map"><i class="ti ti-map-pin"></i></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="ai-bar">
-        <i class="ti ti-sparkles"></i>
-        <input class="ai-input" placeholder="Ask about this decision... e.g. What are the risks of Option B?">
-        <button class="ai-send"><i class="ti ti-arrow-up"></i> Ask</button>
-      </div>
-    </div>
+      </div><!-- /map-layout -->
+    </div><!-- /panel-map -->
 
     <!-- ════ MEETING PANEL ════ -->
     <div class="panel" id="panel-meeting">
       <div class="topbar">
-        <div class="topbar-crumb">
-          <span>Pricing v2</span>
-          <i class="ti ti-chevron-right"></i>
-          <span style="color:var(--t1);font-weight:500">Product sync</span>
-        </div>
+        <div class="topbar-crumb"><span style="color:var(--t3)">Pricing v2</span><i class="ti ti-chevron-right" style="font-size:11px;color:var(--t3)"></i><span>In this meeting</span></div>
         <div class="topbar-spacer"></div>
-        <button class="topbar-btn"><i class="ti ti-flag"></i> Flag moment</button>
-        <button class="topbar-btn"><i class="ti ti-git-branch"></i> Add to map</button>
-        <button class="topbar-btn primary" style="background:var(--red);border-color:var(--red)"><i class="ti ti-player-stop"></i> End meeting</button>
+        <button class="topbar-btn"><i class="ti ti-git-branch"></i> Open strategy map</button>
+        <button class="topbar-btn primary" style="background:var(--red-bg);border-color:var(--red);color:var(--red-t)"><i class="ti ti-player-stop"></i> End &amp; summarise</button>
       </div>
       <div class="meeting-layout">
         <div class="meeting-main">
           <div class="meeting-header">
-            <div class="meeting-title-row">
-              <div class="meeting-rec-badge"><div style="width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 1.5s infinite"></div> Live</div>
-              <div class="meeting-title">Product sync — Pricing v2</div>
-              <button class="topbar-btn" style="margin-left:auto"><i class="ti ti-player-pause"></i></button>
+            <div>
+              <div class="meeting-title-text">Pricing v2 — Product sync</div>
+              <div class="meeting-meta">Started 12:00 · 8 min ago · Pebble recording</div>
             </div>
-            <div class="meeting-meta-row">
-              <span class="meeting-meta"><i class="ti ti-clock"></i> 12:08 elapsed</span>
-              <span class="meeting-meta"><i class="ti ti-calendar"></i> Today, 10:00 AM</span>
-              <div class="participant-chip">
-                <div class="participant-avatar participant-speaking" style="background:var(--blue-bg);color:var(--blue-t)">SK</div>
-                <span class="participant-name">Sarah K.</span>
-              </div>
-              <div class="participant-chip">
-                <div class="participant-avatar" style="background:var(--green-bg);color:var(--green-t)">JT</div>
-                <span class="participant-name">James T.</span>
-              </div>
-              <div class="participant-chip">
-                <div class="participant-avatar" style="background:var(--amber-bg);color:var(--amber-t)">ML</div>
-                <span class="participant-name">Mia L.</span>
-              </div>
-            </div>
+            <div class="meeting-rec-badge"><div style="width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.8s infinite"></div> Recording <span id="meeting-timer" style="font-family:var(--mono);margin-left:4px">12:08</span></div>
+          </div>
+          <div class="participants">
+            <div class="participant"><div class="participant-avatar participant-speaking" style="background:var(--blue-bg);color:var(--blue-t)">SK</div><span class="participant-name">Sarah K.</span></div>
+            <div class="participant"><div class="participant-avatar" style="background:var(--green-bg);color:var(--green-t)">JT</div><span class="participant-name">James T.</span></div>
+            <div class="participant"><div class="participant-avatar" style="background:var(--amber-bg);color:var(--amber-t)">ML</div><span class="participant-name">Mia L.</span></div>
+            <div class="participant"><div class="participant-avatar" style="background:var(--purple-bg);color:var(--purple-t)">RK</div><span class="participant-name">Raj K.</span></div>
           </div>
           <div class="meeting-transcript-area">
             <div class="transcript-block">
               <div class="tb-avatar" style="background:var(--blue-bg);color:var(--blue-t)">SK</div>
               <div class="tb-body">
-                <div class="tb-header"><span class="tb-name">Sarah K.</span><span class="tb-time">10:01</span></div>
-                <div class="tb-text">Okay, so we're here to nail down the pricing model direction. We've had too many meetings on this. Let's commit today. The context is the Q2 miss — three of our five churn interviews came back saying pricing was confusing or too expensive. We have three options on the table.</div>
+                <div class="tb-header"><span class="tb-name">Sarah</span><span class="tb-time">12:01</span></div>
+                <div class="tb-text">The Q2 revenue miss makes it clear we need to fix pricing. I want to push for <span class="highlight-blue">Option B — pure usage-based</span>. The data from similar SaaS companies is compelling.<span class="decision-tag"><i class="ti ti-check-square" style="font-size:10px"></i> Proposing</span></div>
+                <div class="tb-actions"><button class="tb-action-btn"><i class="ti ti-map-pin"></i> Pin to map</button><button class="tb-action-btn"><i class="ti ti-check-square"></i> Mark decision</button></div>
               </div>
             </div>
             <div class="transcript-block">
               <div class="tb-avatar" style="background:var(--green-bg);color:var(--green-t)">JT</div>
               <div class="tb-body">
-                <div class="tb-header"><span class="tb-name">James T.</span><span class="tb-time">10:03</span></div>
-                <div class="tb-text">Before we decide, I need to flag a hard blocker. <span class="highlight">Stripe metered billing needs separate API keys per customer</span> — that means a database migration we haven't scoped. My estimate is four to six additional weeks.
-                  <span class="decision-tag"><i class="ti ti-alert-triangle" style="font-size:11px"></i> Blocker flagged</span>
-                </div>
-                <div class="tb-actions">
-                  <button class="tb-action-btn"><i class="ti ti-git-branch"></i> Add to map</button>
-                  <button class="tb-action-btn"><i class="ti ti-check-square"></i> Create decision</button>
-                </div>
+                <div class="tb-header"><span class="tb-name">James</span><span class="tb-time">12:03</span></div>
+                <div class="tb-text">I support the direction but we have a <span class="highlight">real Stripe billing infra blocker</span>. This isn't 6 weeks — closer to 10. We need to flag this as a constraint before committing.<span class="assumption-tag"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Assumption challenged</span></div>
+                <div class="tb-actions"><button class="tb-action-btn"><i class="ti ti-map-pin"></i> Pin to map</button><button class="tb-action-btn"><i class="ti ti-alert-triangle"></i> Flag risk</button></div>
               </div>
             </div>
             <div class="ai-insight">
-              <div class="ai-insight-label"><i class="ti ti-sparkles" style="font-size:12px"></i> AI insight</div>
-              <div class="ai-insight-text">James's blocker conflicts with the 6-week ship assumption in the strategy map. Decision #16 should be updated. Want me to flag it?</div>
+              <div class="ai-insight-label"><i class="ti ti-sparkles" style="font-size:11px"></i> Stratis detected</div>
+              <div class="ai-insight-text">James's statement contradicts <strong>Assumption: Engineering ships in 6 weeks</strong> on your strategy map. This assumption is now marked as likely false and Decision D-16 is flagged as blocked.</div>
             </div>
             <div class="transcript-block">
               <div class="tb-avatar" style="background:var(--amber-bg);color:var(--amber-t)">ML</div>
               <div class="tb-body">
-                <div class="tb-header"><span class="tb-name">Mia L.</span><span class="tb-time">10:06</span></div>
-                <div class="tb-text">Okay but that's engineering timeline, not the model decision. <span class="highlight-blue">I still think we should decide on the model first</span>, then plan the build. If we wait on model clarity for infra, we'll be doing this in circles. My vote is Option B but with a pilot cohort before GA.
-                  <span class="assumption-tag"><i class="ti ti-help-circle" style="font-size:11px"></i> Assumption captured</span>
-                </div>
-                <div class="tb-actions">
-                  <button class="tb-action-btn"><i class="ti ti-git-branch"></i> Add to map</button>
-                </div>
-              </div>
-            </div>
-            <div class="transcript-block">
-              <div class="tb-avatar" style="background:var(--blue-bg);color:var(--blue-t)">SK</div>
-              <div class="tb-body">
-                <div class="tb-header"><span class="tb-name">Sarah K.</span><span class="tb-time">10:09</span></div>
-                <div class="tb-text">Also worth noting — I saw Mia's Slack message earlier. <span class="highlight">Competitor went flat-rate enterprise this week</span>. That changes the calculus a bit on Option B. Enterprise buyers already have a flat-rate anchor. This might be the worst time to introduce variable pricing into that segment.</div>
-                <div class="tb-actions">
-                  <button class="tb-action-btn"><i class="ti ti-flag"></i> Flag risk</button>
-                  <button class="tb-action-btn"><i class="ti ti-git-branch"></i> Add to map</button>
-                </div>
-              </div>
-            </div>
-            <div class="transcript-block" style="opacity:0.5">
-              <div class="tb-avatar" style="background:var(--green-bg);color:var(--green-t)">JT</div>
-              <div class="tb-body">
-                <div class="tb-header"><span class="tb-name">James T.</span><span class="tb-time">10:11</span></div>
-                <div class="tb-text" style="font-style:italic;color:var(--t3)">Transcribing...</div>
+                <div class="tb-header"><span class="tb-name">Mia</span><span class="tb-time">12:06</span></div>
+                <div class="tb-text">What if we run a limited pilot with 20 SMB accounts first? That validates the <span class="highlight">customer acceptance assumption</span> before we commit fully.</div>
+                <div class="tb-actions"><button class="tb-action-btn"><i class="ti ti-map-pin"></i> Pin to map</button><button class="tb-action-btn"><i class="ti ti-plus"></i> Add option</button></div>
               </div>
             </div>
           </div>
         </div>
         <div class="meeting-sidebar">
           <div class="meeting-sidebar-section">
-            <div class="mss-title"><i class="ti ti-sparkles" style="font-size:12px"></i> Captured so far</div>
-            <div class="captured-item">
-              <i class="ci-icon ti ti-alert-triangle" style="color:var(--red-t)"></i>
-              <div class="ci-text">Billing infra blocker — 4-6 week db migration
-                <div class="ci-meta">James · 10:03</div>
-              </div>
-              <span class="ci-action">→ Map</span>
-            </div>
-            <div class="captured-item">
-              <i class="ci-icon ti ti-help-circle" style="color:var(--amber-t)"></i>
-              <div class="ci-text">Pilot cohort before GA needed
-                <div class="ci-meta">Mia · 10:06 · assumption</div>
-              </div>
-              <span class="ci-action">→ Map</span>
-            </div>
-            <div class="captured-item">
-              <i class="ci-icon ti ti-shield" style="color:var(--red-t)"></i>
-              <div class="ci-text">Competitor flat-rate enterprise launch
-                <div class="ci-meta">Sarah · 10:09 · risk</div>
-              </div>
-              <span class="ci-action">→ Map</span>
-            </div>
+            <div class="mss-title">Captured this meeting</div>
+            <div class="captured-item"><i class="ti ti-alert-triangle ci-icon" style="color:var(--red-t)"></i><div><div class="ci-text">Billing infra blocker — 10 weeks not 6</div><div class="ci-meta">James · 12:03</div></div><span class="ci-action">View</span></div>
+            <div class="captured-item"><i class="ti ti-check-square ci-icon" style="color:var(--blue-t)"></i><div><div class="ci-text">Option B proposed as path forward</div><div class="ci-meta">Sarah · 12:01</div></div><span class="ci-action">View</span></div>
+            <div class="captured-item"><i class="ti ti-help-circle ci-icon" style="color:var(--amber-t)"></i><div><div class="ci-text">SMB pilot idea — validates assumption</div><div class="ci-meta">Mia · 12:06</div></div><span class="ci-action">Pin</span></div>
           </div>
           <div class="meeting-sidebar-section">
-            <div class="mss-title">Linked decisions</div>
-            <div class="captured-item">
-              <i class="ci-icon ti ti-check-square" style="color:var(--blue-t)"></i>
-              <div class="ci-text">#D-14 Legacy migration path
-                <div class="ci-meta">Open · Sarah</div>
-              </div>
-            </div>
-            <div class="captured-item">
-              <i class="ci-icon ti ti-check-square" style="color:var(--red-t)"></i>
-              <div class="ci-text">#D-16 Billing infra timeline
-                <div class="ci-meta">Blocked · James</div>
-              </div>
-            </div>
-            <div class="captured-item">
-              <i class="ci-icon ti ti-check-square" style="color:var(--blue-t)"></i>
-              <div class="ci-text">#D-15 Pilot vs full GA
-                <div class="ci-meta">Open · Mia</div>
-              </div>
-            </div>
+            <div class="mss-title">Open decisions</div>
+            <div style="font-size:12px;color:var(--t2);padding:6px 0;border-bottom:0.5px solid var(--border)">Grandfather period — 30 days vs 12 months<span style="display:block;font-size:10.5px;color:var(--t3);margin-top:2px">Raised by Sarah · unresolved</span></div>
+            <div style="font-size:12px;color:var(--t2);padding:6px 0">Pilot scope — how many SMB accounts?<span style="display:block;font-size:10.5px;color:var(--t3);margin-top:2px">Raised by Mia · unresolved</span></div>
           </div>
-          <div class="meeting-sidebar-section">
-            <div class="mss-title">AI questions</div>
-            <div class="ai-q" style="margin-bottom:6px"><i class="ti ti-help-circle"></i>Has anyone checked if SMB customers prefer predictable billing?</div>
-            <div class="ai-q"><i class="ti ti-help-circle"></i>Should the competitor move change your Option B thesis?</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ REVIEW DECISIONS PANEL ════ -->
+    <div class="panel" id="panel-decisions">
+      <div class="topbar">
+        <div class="topbar-crumb"><span style="color:var(--t3)">Pricing v2</span><i class="ti ti-chevron-right" style="font-size:11px;color:var(--t3)"></i><span>Reviewing decisions</span></div>
+        <div class="topbar-spacer"></div>
+        <button class="topbar-btn primary"><i class="ti ti-plus"></i> Add decision</button>
+      </div>
+      <div class="decisions-layout">
+        <div class="decisions-filter-row">
+          <button class="filter-chip on">All</button>
+          <button class="filter-chip">Needs input</button>
+          <button class="filter-chip">Blocked</button>
+          <button class="filter-chip">Resolved</button>
+        </div>
+        <div class="decision-card blocked">
+          <div class="dc-header">
+            <span class="dc-num">D-16</span>
+            <span class="dc-title">Billing infrastructure — Stripe migration timeline</span>
+            <span class="dc-status" style="background:var(--red-bg);color:var(--red-t)">Blocked</span>
           </div>
+          <div class="dc-body">Engineering capacity unclear. James flagged 10-week timeline in today's meeting. Decision blocked until assumption is resolved.</div>
+          <div class="dc-footer">
+            <span class="dc-meta"><i class="ti ti-user"></i> James T.</span>
+            <span class="dc-meta"><i class="ti ti-calendar"></i> Due Jun 5</span>
+            <span class="dc-meta"><i class="ti ti-git-branch"></i> On strategy map</span>
+          </div>
+        </div>
+        <div class="decision-card">
+          <div class="dc-header">
+            <span class="dc-num">D-14</span>
+            <span class="dc-title">Grandfather period for existing enterprise accounts</span>
+            <span class="dc-status" style="background:var(--amber-bg);color:var(--amber-t)">Open</span>
+          </div>
+          <div class="dc-body">Two options under consideration. Raised during today's meeting. Needs exec sign-off.</div>
+          <div style="display:flex;gap:6px;padding-left:28px;margin-bottom:8px">
+            <button class="dc-option">30 days</button>
+            <button class="dc-option chosen">12 months</button>
+          </div>
+          <div class="dc-footer">
+            <span class="dc-meta"><i class="ti ti-user"></i> Sarah K.</span>
+            <span class="dc-meta"><i class="ti ti-clock"></i> Raised today</span>
+          </div>
+        </div>
+        <div class="decision-card">
+          <div class="dc-header">
+            <span class="dc-num">D-13</span>
+            <span class="dc-title">SMB pilot — account count and validation criteria</span>
+            <span class="dc-status" style="background:var(--amber-bg);color:var(--amber-t)">Open</span>
+          </div>
+          <div class="dc-body">Mia proposed a limited pilot to validate assumption. Scope and success criteria undefined.</div>
+          <div style="display:flex;gap:6px;padding-left:28px;margin-bottom:8px">
+            <button class="dc-option">20 accounts</button>
+            <button class="dc-option">50 accounts</button>
+            <button class="dc-option">Full cohort</button>
+          </div>
+          <div class="dc-footer">
+            <span class="dc-meta"><i class="ti ti-user"></i> Mia L.</span>
+            <span class="dc-meta"><i class="ti ti-clock"></i> Raised today</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ INBOX PANEL ════ -->
+    <div class="panel" id="panel-inbox">
+      <div class="topbar">
+        <span class="topbar-title">Signals inbox</span>
+        <div class="topbar-spacer"></div>
+        <button class="topbar-btn"><i class="ti ti-check"></i> Mark all read</button>
+      </div>
+      <div class="inbox-layout">
+        <div class="inbox-group-label">Today · Pricing v2</div>
+        <div class="inbox-card">
+          <div class="inbox-unread-dot"></div>
+          <div class="inbox-source-icon" style="background:var(--red-bg)"><i class="ti ti-alert-triangle" style="color:var(--red-t)"></i></div>
+          <div class="inbox-body">
+            <div class="inbox-header"><span class="inbox-from">Assumption invalidated</span><span class="inbox-via">· Strategy map</span><span class="inbox-time">12:03</span></div>
+            <div class="inbox-text">"Engineering ships in 6 weeks" marked likely false. D-16 now blocked.</div>
+          </div>
+          <span class="inbox-tag" style="background:var(--red-bg);color:var(--red-t)">Risk</span>
+        </div>
+        <div class="inbox-card">
+          <div class="inbox-unread-dot"></div>
+          <div class="inbox-source-icon" style="background:var(--green-bg)"><i class="ti ti-brand-slack" style="color:var(--green-t)"></i></div>
+          <div class="inbox-body">
+            <div class="inbox-header"><span class="inbox-from">James T.</span><span class="inbox-via">· Slack #pricing</span><span class="inbox-time">11:47</span></div>
+            <div class="inbox-text">Just spoke to Stripe — billing API migration is minimum 10 weeks. We need to revisit the timeline.</div>
+          </div>
+          <span class="inbox-tag" style="background:var(--amber-bg);color:var(--amber-t)">Signal</span>
+        </div>
+        <div class="inbox-card">
+          <div class="inbox-unread-dot"></div>
+          <div class="inbox-source-icon" style="background:var(--blue-bg)"><i class="ti ti-sparkles" style="color:var(--blue-t)"></i></div>
+          <div class="inbox-body">
+            <div class="inbox-header"><span class="inbox-from">Stratis AI</span><span class="inbox-via">· Pattern detected</span><span class="inbox-time">9:32</span></div>
+            <div class="inbox-text">Similar pricing migration at Intercom (2022) caused 8% churn spike in mid-market within 90 days.</div>
+          </div>
+          <span class="inbox-tag" style="background:var(--purple-bg);color:var(--purple-t)">Historical</span>
+        </div>
+        <div class="inbox-group-label" style="margin-top:8px">Yesterday</div>
+        <div class="inbox-card">
+          <div class="inbox-unread-dot empty"></div>
+          <div class="inbox-source-icon" style="background:var(--bg3)"><i class="ti ti-notes" style="color:var(--t2)"></i></div>
+          <div class="inbox-body">
+            <div class="inbox-header"><span class="inbox-from">Notion — Pricing brief</span><span class="inbox-via">· Doc updated</span><span class="inbox-time">4:12 PM</span></div>
+            <div class="inbox-text">Mia updated the option comparison section with new revenue projections.</div>
+          </div>
+          <span class="inbox-tag" style="background:var(--bg4);color:var(--t3)">Doc</span>
         </div>
       </div>
     </div>
@@ -1361,19 +1350,13 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
     <!-- ════ DOCUMENT PANEL ════ -->
     <div class="panel" id="panel-document">
       <div class="topbar">
-        <div class="topbar-crumb">
-          <span>Pricing v2</span>
-          <i class="ti ti-chevron-right"></i>
-          <span>Option B deep dive</span>
-          <i class="ti ti-chevron-right"></i>
-          <span style="color:var(--t1);font-weight:500">Node view</span>
-        </div>
+        <div class="topbar-crumb"><span style="color:var(--t3)">Pricing v2</span><i class="ti ti-chevron-right" style="font-size:11px;color:var(--t3)"></i><span>Reading the brief</span></div>
         <div class="topbar-spacer"></div>
-        <button class="topbar-btn"><i class="ti ti-edit"></i> Edit</button>
-        <button class="topbar-btn"><i class="ti ti-share"></i> Share</button>
-        <button class="topbar-btn primary"><i class="ti ti-git-branch"></i> Open in map</button>
+        <button class="topbar-btn"><i class="ti ti-git-branch"></i> Open in map</button>
+        <button class="topbar-btn primary"><i class="ti ti-download"></i> Export</button>
       </div>
       <div class="doc-layout">
+        <!-- TOC -->
         <div class="doc-toc">
           <div class="doc-toc-section">
             <div class="doc-toc-label">This document</div>
@@ -1397,6 +1380,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
             <div class="doc-toc-item" style="font-size:11px"><i class="ti ti-clock"></i> v1 — May 28</div>
           </div>
         </div>
+
+        <!-- Main doc body -->
         <div class="doc-main">
           <div class="doc-body">
             <div class="doc-header">
@@ -1446,17 +1431,17 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 
             <div class="doc-section">
               <h2>Open decisions</h2>
-              <div class="doc-decision-ref" onclick="switchPanel('decisions', document.querySelector('[onclick*=decisions]'))">
+              <div class="doc-decision-ref" onclick="switchPanel('decisions', null)">
                 <i class="ti ti-check-square" style="color:var(--amber-t)"></i>
                 <span class="doc-dr-title">#D-14 · How do we handle legacy customers during migration?</span>
                 <span class="doc-dr-status" style="background:var(--amber-bg);color:var(--amber-t)">Open</span>
               </div>
-              <div class="doc-decision-ref" onclick="switchPanel('decisions', document.querySelector('[onclick*=decisions]'))">
+              <div class="doc-decision-ref" onclick="switchPanel('decisions', null)">
                 <i class="ti ti-check-square" style="color:var(--red-t)"></i>
                 <span class="doc-dr-title">#D-16 · Can billing infra support metered usage by target date?</span>
                 <span class="doc-dr-status" style="background:var(--red-bg);color:var(--red-t)">Blocked</span>
               </div>
-              <div class="doc-decision-ref" onclick="switchPanel('decisions', document.querySelector('[onclick*=decisions]'))">
+              <div class="doc-decision-ref" onclick="switchPanel('decisions', null)">
                 <i class="ti ti-check-square" style="color:var(--blue-t)"></i>
                 <span class="doc-dr-title">#D-15 · Closed beta or staged rollout before full GA?</span>
                 <span class="doc-dr-status" style="background:var(--blue-bg);color:var(--blue-t)">Open</span>
@@ -1474,22 +1459,40 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
                 <div class="doc-callout-text">James flagged in today's meeting that billing infra requires 4–6 additional weeks. The original 6-week assumption is likely false. Update recommended.</div>
               </div>
             </div>
+
+            <div class="doc-section">
+              <h2>Risk log</h2>
+              <div class="doc-callout" style="border-left-color:var(--red)">
+                <div class="doc-callout-label" style="color:var(--red-t)">High · Active</div>
+                <div class="doc-callout-text">Engineering billing infra not ready — Decision #16 blocked. Stripe migration scope underestimated by ~4 weeks.</div>
+              </div>
+              <div class="doc-callout" style="margin-top:8px;border-left-color:var(--amber)">
+                <div class="doc-callout-label">Medium · Monitoring</div>
+                <div class="doc-callout-text">Revenue predictability drops during transition period. Finance flagged concern. Mitigation: grandfather existing ARR contracts for 12 months.</div>
+              </div>
+              <div class="doc-callout" style="margin-top:8px;border-left-color:var(--amber)">
+                <div class="doc-callout-label">Medium · Unverified</div>
+                <div class="doc-callout-text">SMB churn if metered pricing causes bill shock. No survey data to validate. Pilot proposed by Mia as mitigation path.</div>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Aside -->
         <div class="doc-aside">
           <div class="aside-section">
             <div class="aside-label">Node connections</div>
-            <div class="aside-node-mini" onclick="selectNode('opt-b')">
+            <div class="aside-node-mini" onclick="switchPanel('map', null)">
               <div class="aside-nm-type" style="color:var(--blue-t)">Decision option</div>
               <div class="aside-nm-title">Option B: Pure usage-based</div>
               <div class="aside-nm-meta">AI rec · Open</div>
             </div>
-            <div class="aside-node-mini" onclick="selectNode('assumption1')">
+            <div class="aside-node-mini" onclick="switchPanel('map', null)">
               <div class="aside-nm-type" style="color:var(--amber-t)">Assumption</div>
               <div class="aside-nm-title">SMB accepts metered billing</div>
               <div class="aside-nm-meta">Unverified · Critical</div>
             </div>
-            <div class="aside-node-mini">
+            <div class="aside-node-mini" onclick="switchPanel('decisions', null)">
               <div class="aside-nm-type" style="color:var(--red-t)">Blocked decision</div>
               <div class="aside-nm-title">D-16: Billing infra</div>
               <div class="aside-nm-meta">James T. · Today</div>
@@ -1505,246 +1508,31 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
           </div>
           <div class="aside-section">
             <div class="aside-label">Ask AI</div>
-            <div class="aside-link" onclick="alert('Sending to AI...')"><i class="ti ti-sparkles"></i>Summarise open decisions</div>
-            <div class="aside-link" onclick="alert('Sending to AI...')"><i class="ti ti-git-branch"></i>Compare all options</div>
-            <div class="aside-link" onclick="alert('Sending to AI...')"><i class="ti ti-shield"></i>Show risk analysis</div>
+            <div class="aside-link"><i class="ti ti-sparkles"></i>Summarise open decisions</div>
+            <div class="aside-link"><i class="ti ti-git-branch"></i>Compare all options</div>
+            <div class="aside-link"><i class="ti ti-shield"></i>Show risk analysis</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ════ DECISIONS PANEL ════ -->
-    <div class="panel" id="panel-decisions">
-      <div class="topbar">
-        <div class="topbar-crumb"><span style="color:var(--t1);font-weight:500">Decisions</span><i class="ti ti-chevron-right"></i><span>Pricing v2</span></div>
-        <div class="topbar-spacer"></div>
-        <button class="topbar-btn"><i class="ti ti-filter"></i> Filter</button>
-        <button class="topbar-btn primary"><i class="ti ti-plus"></i> New decision</button>
-      </div>
-      <div class="decisions-layout">
-        <div class="decisions-filter-row">
-          <button class="filter-chip on">All (4)</button>
-          <button class="filter-chip">Open (2)</button>
-          <button class="filter-chip">Blocked (1)</button>
-          <button class="filter-chip">Resolved (1)</button>
-          <button class="filter-chip">High impact</button>
-        </div>
-        <div class="decision-card blocked">
-          <div class="dc-header">
-            <span class="dc-num">#D-16</span>
-            <span class="dc-title">Can billing infrastructure support metered usage by the target date?</span>
-            <span class="dc-status" style="background:var(--red-bg);color:var(--red-t)">Blocked</span>
-          </div>
-          <div class="dc-body">Engineering flagged Stripe metered billing requires 4–6 week sprint. Conflicts with current roadmap. Needs exec prioritization. James confirmed in today's meeting the migration scope was underestimated.</div>
-          <div class="dc-footer">
-            <span class="dc-meta"><i class="ti ti-user"></i> James T.</span>
-            <span class="dc-meta"><i class="ti ti-clock"></i> Today, 10:03</span>
-            <span class="dc-meta" style="color:var(--red-t);font-weight:500"><i class="ti ti-alert-triangle"></i> Needs exec escalation</span>
-          </div>
-        </div>
-        <div class="decision-card">
-          <div class="dc-header">
-            <span class="dc-num">#D-14</span>
-            <span class="dc-title">How do we handle legacy customers during the pricing migration?</span>
-            <span class="dc-status" style="background:var(--amber-bg);color:var(--amber-t)">Open</span>
-          </div>
-          <div class="dc-body">Customers on grandfathered plans need a migration path. Three options identified. Finance prefers the 12-month grandfather period to maintain revenue predictability.</div>
-          <div class="dc-options">
-            <button class="dc-option chosen">Grandfather 12 months</button>
-            <button class="dc-option">Credits bridge</button>
-            <button class="dc-option">Force migrate</button>
-          </div>
-          <div class="dc-footer">
-            <span class="dc-meta"><i class="ti ti-user"></i> Sarah K.</span>
-            <span class="dc-meta"><i class="ti ti-clock"></i> 2h ago</span>
-            <span class="dc-meta"><i class="ti ti-message"></i> 4 comments</span>
-          </div>
-        </div>
-        <div class="decision-card">
-          <div class="dc-header">
-            <span class="dc-num">#D-15</span>
-            <span class="dc-title">Do we run a pricing pilot before full rollout?</span>
-            <span class="dc-status" style="background:var(--amber-bg);color:var(--amber-t)">Open</span>
-          </div>
-          <div class="dc-body">Team split on whether to do a closed beta with 50 customers or go straight to GA. Engineering prefers soft launch to reduce rollback risk. Mia raised this in today's meeting.</div>
-          <div class="dc-options">
-            <button class="dc-option">Closed beta (50)</button>
-            <button class="dc-option">Staged rollout 10%</button>
-            <button class="dc-option">Full GA</button>
-          </div>
-          <div class="dc-footer">
-            <span class="dc-meta"><i class="ti ti-user"></i> Mia L.</span>
-            <span class="dc-meta"><i class="ti ti-clock"></i> Today, 10:06</span>
-          </div>
-        </div>
-        <div class="decision-card">
-          <div class="dc-header">
-            <span class="dc-num">#D-11</span>
-            <span class="dc-title">Which tier should serve as our self-serve entry point?</span>
-            <span class="dc-status" style="background:var(--green-bg);color:var(--green-t)">Resolved</span>
-          </div>
-          <div class="dc-body">Free tier with 1,000 credits/month. Upgrading unlocks team features and higher limits. Aligned in product sync May 28. Committed.</div>
-          <div class="dc-footer">
-            <span class="dc-meta"><i class="ti ti-user"></i> Mia L.</span>
-            <span class="dc-meta"><i class="ti ti-clock"></i> 3 days ago</span>
-            <span class="dc-meta"><i class="ti ti-check"></i> Committed</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════ INBOX PANEL ════ -->
-    <div class="panel" id="panel-inbox">
-      <div class="topbar">
-        <span class="topbar-title">Inbox</span>
-        <span style="font-size:12px;color:var(--t3);margin-left:8px">AI-filtered signals from Slack, Jira, email, calendar</span>
-        <div class="topbar-spacer"></div>
-        <button class="topbar-btn"><i class="ti ti-settings"></i> Filters</button>
-        <button class="topbar-btn"><i class="ti ti-checks"></i> Mark all read</button>
-      </div>
-      <div class="inbox-layout">
-        <div class="inbox-group-label">New · today</div>
-        <div class="inbox-card">
-          <div class="inbox-unread-dot"></div>
-          <div class="inbox-source-icon"><i class="ti ti-brand-slack" style="color:#4a154b"></i></div>
-          <div class="inbox-body">
-            <div class="inbox-header"><span class="inbox-from">James T.</span><span class="inbox-via">in #engineering</span><span class="inbox-time">11 min</span></div>
-            <div class="inbox-text">Stripe metered billing needs separate keys per customer — that's a db migration we haven't scoped, will add 2 weeks</div>
-          </div>
-          <span class="inbox-tag" style="background:var(--red-bg);color:var(--red-t)">→ D-16</span>
-        </div>
-        <div class="inbox-card">
-          <div class="inbox-unread-dot"></div>
-          <div class="inbox-source-icon"><i class="ti ti-mail" style="color:var(--blue-t)"></i></div>
-          <div class="inbox-body">
-            <div class="inbox-header"><span class="inbox-from">Acme Corp (customer)</span><span class="inbox-via">via email</span><span class="inbox-time">42 min</span></div>
-            <div class="inbox-text">We've been on your Business plan for 2 years — if you move to credits we'll need pricing stability guarantees before renewal</div>
-          </div>
-          <span class="inbox-tag" style="background:var(--amber-bg);color:var(--amber-t)">Risk log</span>
-        </div>
-        <div class="inbox-card">
-          <div class="inbox-unread-dot"></div>
-          <div class="inbox-source-icon"><i class="ti ti-microphone" style="color:var(--red-t)"></i></div>
-          <div class="inbox-body">
-            <div class="inbox-header"><span class="inbox-from">Meeting summary</span><span class="inbox-via">Product sync · 45 min</span><span class="inbox-time">Just now</span></div>
-            <div class="inbox-text">3 new decisions identified: pilot structure, legacy migration, billing infra timeline. 2 assumptions flagged as unverified.</div>
-          </div>
-          <span class="inbox-tag" style="background:var(--blue-bg);color:var(--blue-t)">→ Map</span>
-        </div>
-        <div class="inbox-group-label" style="margin-top:8px">Earlier</div>
-        <div class="inbox-card">
-          <div class="inbox-unread-dot empty"></div>
-          <div class="inbox-source-icon"><i class="ti ti-brand-linear"></i></div>
-          <div class="inbox-body">
-            <div class="inbox-header"><span class="inbox-from">PRICE-27 updated</span><span class="inbox-via">Linear</span><span class="inbox-time">1h</span></div>
-            <div class="inbox-text">Sarah moved "Pricing page redesign" to In Progress — linked to D-14 migration path</div>
-          </div>
-          <span class="inbox-tag" style="background:var(--bg3);color:var(--t3)">View</span>
-        </div>
-        <div class="inbox-card">
-          <div class="inbox-unread-dot empty"></div>
-          <div class="inbox-source-icon"><i class="ti ti-brand-slack" style="color:#4a154b"></i></div>
-          <div class="inbox-body">
-            <div class="inbox-header"><span class="inbox-from">Mia L.</span><span class="inbox-via">in #product</span><span class="inbox-time">Yesterday</span></div>
-            <div class="inbox-text">Competitor just announced flat-rate enterprise pricing — we should probably revisit Option B risks before committing</div>
-          </div>
-          <span class="inbox-tag" style="background:var(--red-bg);color:var(--red-t)">Risk</span>
-        </div>
-        <div class="inbox-card">
-          <div class="inbox-unread-dot empty"></div>
-          <div class="inbox-source-icon"><i class="ti ti-mail" style="color:var(--blue-t)"></i></div>
-          <div class="inbox-body">
-            <div class="inbox-header"><span class="inbox-from">Notion update</span><span class="inbox-via">auto-sync</span><span class="inbox-time">Yesterday</span></div>
-            <div class="inbox-text">Pricing v2 brief updated by Sarah K. — added Option B risk section, competitor analysis paragraph</div>
-          </div>
-          <span class="inbox-tag" style="background:var(--bg3);color:var(--t3)">View doc</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════ INTEGRATIONS PANEL ════ -->
+    <!-- ════ SETTINGS / INTEGRATIONS ════ -->
     <div class="panel" id="panel-integrations">
       <div class="topbar">
-        <span class="topbar-title">Integrations</span>
-        <div class="topbar-spacer"></div>
-        <button class="topbar-btn primary"><i class="ti ti-plus"></i> Add integration</button>
+        <span class="topbar-title">Settings &amp; integrations</span>
       </div>
       <div class="int-layout">
-        <div class="section-label" style="margin-bottom:10px">Communication</div>
-        <div class="int-grid" style="margin-bottom:20px">
-          <div class="int-card">
-            <div class="int-card-top">
-              <div class="int-icon"><i class="ti ti-brand-slack" style="color:#4a154b"></i></div>
-              <div><div class="int-name">Slack</div><div class="int-sub">14 channels synced</div></div>
-            </div>
-            <div class="int-badge" style="background:var(--green-bg);color:var(--green-t)">Connected</div>
-          </div>
-          <div class="int-card">
-            <div class="int-card-top">
-              <div class="int-icon"><i class="ti ti-mail" style="color:var(--blue-t)"></i></div>
-              <div><div class="int-name">Gmail</div><div class="int-sub">2 accounts</div></div>
-            </div>
-            <div class="int-badge" style="background:var(--green-bg);color:var(--green-t)">Connected</div>
-          </div>
-          <div class="int-card">
-            <div class="int-card-top">
-              <div class="int-icon"><i class="ti ti-brand-discord" style="color:#5865f2"></i></div>
-              <div><div class="int-name">Discord</div><div class="int-sub">Not configured</div></div>
-            </div>
-            <div class="int-badge" style="background:var(--bg3);color:var(--t3)">Off</div>
-          </div>
-          <div class="int-card">
-            <div class="int-card-top">
-              <div class="int-icon"><i class="ti ti-video" style="color:var(--blue-t)"></i></div>
-              <div><div class="int-name">Zoom</div><div class="int-sub">Auto-join meetings</div></div>
-            </div>
-            <div class="int-badge" style="background:var(--amber-bg);color:var(--amber-t)">Setup</div>
-          </div>
-        </div>
-        <div class="section-label" style="margin-bottom:10px">Planning</div>
-        <div class="int-grid" style="margin-bottom:20px">
-          <div class="int-card">
-            <div class="int-card-top">
-              <div class="int-icon"><i class="ti ti-brand-linear"></i></div>
-              <div><div class="int-name">Linear</div><div class="int-sub">3 workspaces</div></div>
-            </div>
-            <div class="int-badge" style="background:var(--green-bg);color:var(--green-t)">Connected</div>
-          </div>
-          <div class="int-card">
-            <div class="int-card-top">
-              <div class="int-icon"><i class="ti ti-chart-dots" style="color:#0052cc"></i></div>
-              <div><div class="int-name">Jira</div><div class="int-sub">2 projects</div></div>
-            </div>
-            <div class="int-badge" style="background:var(--green-bg);color:var(--green-t)">Connected</div>
-          </div>
-          <div class="int-card">
-            <div class="int-card-top">
-              <div class="int-icon"><i class="ti ti-notes"></i></div>
-              <div><div class="int-name">Notion</div><div class="int-sub">Strategy workspace</div></div>
-            </div>
-            <div class="int-badge" style="background:var(--green-bg);color:var(--green-t)">Connected</div>
-          </div>
-          <div class="int-card">
-            <div class="int-card-top">
-              <div class="int-icon"><i class="ti ti-calendar" style="color:var(--blue-t)"></i></div>
-              <div><div class="int-name">Google Cal</div><div class="int-sub">Auto-capture meetings</div></div>
-            </div>
-            <div class="int-badge" style="background:var(--green-bg);color:var(--green-t)">Connected</div>
-          </div>
+        <div class="section-label" style="margin-bottom:10px">Connected sources</div>
+        <div class="int-grid">
+          <div class="int-card"><div class="int-card-top"><div class="int-icon"><i class="ti ti-brand-slack" style="color:#4A154B"></i></div><div><div class="int-name">Slack</div><div class="int-sub">Signal capture</div></div></div><div class="int-badge" style="background:var(--green-bg);color:var(--green-t)">Connected</div></div>
+          <div class="int-card"><div class="int-card-top"><div class="int-icon"><i class="ti ti-notes" style="color:var(--blue-t)"></i></div><div><div class="int-name">Notion</div><div class="int-sub">Doc sync</div></div></div><div class="int-badge" style="background:var(--green-bg);color:var(--green-t)">Connected</div></div>
+          <div class="int-card"><div class="int-card-top"><div class="int-icon"><i class="ti ti-calendar" style="color:var(--blue-t)"></i></div><div><div class="int-name">Google Cal</div><div class="int-sub">Meeting sync</div></div></div><div class="int-badge" style="background:var(--green-bg);color:var(--green-t)">Connected</div></div>
+          <div class="int-card"><div class="int-card-top"><div class="int-icon"><i class="ti ti-chart-dots" style="color:var(--blue-t)"></i></div><div><div class="int-name">Jira</div><div class="int-sub">Issue tracking</div></div></div><div class="int-badge" style="background:var(--bg4);color:var(--t3)">Not connected</div></div>
         </div>
         <div class="section-label" style="margin-bottom:10px">Capture device</div>
         <div class="int-card" style="max-width:360px">
-          <div class="int-card-top">
-            <div class="int-icon"><i class="ti ti-microphone"></i></div>
-            <div>
-              <div class="int-name">Stratis Pebble</div>
-              <div class="int-sub">SPB-00312 · FW 2.1.4 · 87% battery</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:6px">
-            <div style="width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.8s infinite"></div>
-            <span style="font-size:11px;font-weight:500;color:var(--red-t)">Recording active</span>
-          </div>
+          <div class="int-card-top"><div class="int-icon"><i class="ti ti-microphone"></i></div><div><div class="int-name">Stratis Pebble</div><div class="int-sub">SPB-00312 · FW 2.1.4 · 87% battery</div></div></div>
+          <div style="display:flex;align-items:center;gap:6px"><div style="width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.8s infinite"></div><span style="font-size:11px;font-weight:500;color:var(--red-t)">Recording active</span></div>
         </div>
       </div>
     </div>
@@ -1753,13 +1541,77 @@ body { font-family: var(--font); background: var(--bg); color: var(--t1); font-s
 </div><!-- /app -->
 
 <script>
-function switchPanel(id, btn) {
+// ── PANEL SWITCHING ──
+function switchPanel(id, railBtn, drawerBtn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  if (btn) btn.classList.add('active');
+
+  // Rail active state
+  document.querySelectorAll('.rail-btn').forEach(b => b.classList.remove('active'));
+  const r = document.getElementById('rail-' + id);
+  if (r) r.classList.add('active');
+
+  // Drawer workflow items active state
+  document.querySelectorAll('.wf-item').forEach(b => b.classList.remove('active'));
+  if (drawerBtn) drawerBtn.classList.add('active');
+
+  // Show/hide context drawer — only for project-context panels
+  const drawer = document.getElementById('context-drawer');
+  const contextPanels = ['map', 'meeting', 'decisions', 'inbox'];
+  if (contextPanels.includes(id)) {
+    drawer.classList.add('open');
+  } else {
+    drawer.classList.remove('open');
+  }
 }
 
+// ── ZOOM LEVELS ──
+function setZoom(level, btn) {
+  document.querySelectorAll('.zoom-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const callout = document.getElementById('zoom-callout');
+  const optCluster = document.getElementById('cluster-options-body');
+  const assumpCluster = document.getElementById('cluster-assumptions-body');
+
+  if (level === 'executive') {
+    // Collapse options, show only blocked assumption
+    callout.style.display = 'block';
+    if (optCluster) optCluster.style.display = 'none';
+    document.querySelector('#cluster-options .cluster-collapse-btn').innerHTML = '<i class="ti ti-chevron-down"></i> Expand';
+    // Keep assumptions expanded but show only the blocked one
+    const optA = document.getElementById('node-opt-a');
+    const optC = document.getElementById('node-opt-c');
+    if (optA) optA.style.display = 'none';
+    if (optC) optC.style.display = 'none';
+  } else if (level === 'standard') {
+    callout.style.display = 'none';
+    if (optCluster) optCluster.style.display = '';
+    if (assumpCluster) assumpCluster.style.display = '';
+    document.querySelectorAll('.node').forEach(n => { n.style.display = ''; });
+    document.querySelector('#cluster-options .cluster-collapse-btn').innerHTML = '<i class="ti ti-chevron-up"></i> Collapse';
+  } else if (level === 'deep') {
+    callout.style.display = 'none';
+    if (optCluster) optCluster.style.display = '';
+    if (assumpCluster) assumpCluster.style.display = '';
+    document.querySelectorAll('.node').forEach(n => { n.style.display = ''; });
+  }
+}
+
+// ── CLUSTER COLLAPSE ──
+function toggleCluster(bodyId, btn) {
+  const body = document.getElementById(bodyId);
+  const isOpen = body.style.display !== 'none' && body.style.display !== '';
+  if (isOpen) {
+    body.style.display = 'none';
+    btn.innerHTML = '<i class="ti ti-chevron-down"></i> Expand';
+  } else {
+    body.style.display = '';
+    btn.innerHTML = '<i class="ti ti-chevron-up"></i> Collapse';
+  }
+}
+
+// ── DETAIL TAB ──
 function switchDetailTab(tab, btn) {
   document.querySelectorAll('.md-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
@@ -1769,6 +1621,7 @@ function switchDetailTab(tab, btn) {
   document.getElementById('md-transcript-body').style.display = tab === 'transcript' ? 'block' : 'none';
 }
 
+// ── NODE DATA ──
 const nodeData = {
   origin: { title: 'Q2 revenue miss', context: 'Root cause event. Revenue 18% below target. Exit interviews cited pricing confusion as primary reason (3/5 respondents).', owner: 'Leadership' },
   decision1: { title: 'Restructure pricing tiers', context: 'Core strategic decision: move from feature-gated to usage-based. Exec alignment partial — Finance concerned about revenue predictability.', owner: 'Sarah K.' },
@@ -1790,64 +1643,56 @@ function selectNode(id) {
   document.getElementById('detail-owner').textContent = d.owner;
 }
 
-// Timeline scrubber
+// ── TIMELINE ──
 const timelineDates = ['May 2', 'May 12', 'May 21', 'Jun 1', 'Jun 5', 'Now'];
 function scrubTimeline(e, track) {
   const rect = track.getBoundingClientRect();
   const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
   document.getElementById('timeline-fill').style.width = (pct * 100) + '%';
   document.getElementById('timeline-thumb').style.right = ((1 - pct) * 100) + '%';
-  document.getElementById('timeline-thumb').style.left = 'auto';
   const idx = Math.min(timelineDates.length - 1, Math.floor(pct * timelineDates.length));
   document.getElementById('timeline-date').textContent = timelineDates[idx];
-  // visual feedback: stale nodes when scrubbing back in time
-  const isHistory = pct < 0.95;
-  document.querySelectorAll('.node.hot-debate, .node.ai-recommended').forEach(n => {
-    n.style.opacity = isHistory ? '0.7' : '';
-  });
-  if (idx < 3) {
-    // showing past state: assumption2 didn't exist yet
-    const a2 = document.getElementById('node-assumption2');
-    if (a2) a2.style.opacity = pct < 0.5 ? '0.1' : '';
-  }
+  const a2 = document.getElementById('node-assumption2');
+  if (a2) a2.style.opacity = pct < 0.5 ? '0.1' : '';
 }
 
 let replayInterval = null;
 function toggleReplay(btn) {
+  const allBtns = document.querySelectorAll('.replay-btn, #replay-btn-top');
   if (replayInterval) {
     clearInterval(replayInterval);
     replayInterval = null;
-    btn.classList.remove('active');
-    btn.innerHTML = '<i class="ti ti-player-play"></i> Replay';
-    // reset
+    allBtns.forEach(b => { b.classList.remove('active'); b.innerHTML = '<i class="ti ti-player-play"></i> Replay'; });
     document.getElementById('timeline-fill').style.width = '100%';
     document.getElementById('timeline-thumb').style.right = '-1px';
     document.getElementById('timeline-date').textContent = 'Now';
     document.querySelectorAll('.node').forEach(n => n.style.opacity = '');
     return;
   }
-  btn.classList.add('active');
-  btn.innerHTML = '<i class="ti ti-player-stop"></i> Stop';
+  allBtns.forEach(b => { b.classList.add('active'); b.innerHTML = '<i class="ti ti-player-stop"></i> Stop'; });
   let pct = 0;
   document.getElementById('timeline-fill').style.width = '0%';
   document.getElementById('timeline-thumb').style.right = '100%';
-  document.getElementById('timeline-thumb').style.left = 'auto';
   replayInterval = setInterval(() => {
     pct += 0.005;
-    if (pct >= 1) { pct = 1; clearInterval(replayInterval); replayInterval = null; btn.classList.remove('active'); btn.innerHTML = '<i class="ti ti-player-play"></i> Replay'; }
+    if (pct >= 1) {
+      pct = 1; clearInterval(replayInterval); replayInterval = null;
+      allBtns.forEach(b => { b.classList.remove('active'); b.innerHTML = '<i class="ti ti-player-play"></i> Replay'; });
+    }
     document.getElementById('timeline-fill').style.width = (pct * 100) + '%';
     document.getElementById('timeline-thumb').style.right = ((1 - pct) * 100) + '%';
     const idx = Math.min(timelineDates.length - 1, Math.floor(pct * timelineDates.length));
     document.getElementById('timeline-date').textContent = timelineDates[idx];
-    // Show assumption2 appearing mid-replay
     const a2 = document.getElementById('node-assumption2');
     if (a2) a2.style.opacity = pct > 0.55 ? '' : '0.1';
   }, 50);
 }
 
+// ── RECORDING TIMER ──
 let recording = true, secs = 728;
 const timerEl = document.getElementById('dev-timer');
 const tdTimerEl = document.getElementById('td-timer');
+const meetingTimerEl = document.getElementById('meeting-timer');
 setInterval(() => {
   if (!recording) return;
   secs++;
@@ -1855,6 +1700,7 @@ setInterval(() => {
   const s = (secs%60).toString().padStart(2,'0');
   if (timerEl) timerEl.textContent = m+':'+s;
   if (tdTimerEl) tdTimerEl.textContent = m+':'+s;
+  if (meetingTimerEl) meetingTimerEl.textContent = m+':'+s;
 }, 1000);
 
 function toggleRecording() {
@@ -1865,6 +1711,7 @@ function toggleRecording() {
   if (status) status.textContent = recording ? 'Recording active' : 'Paused';
 }
 
+// ── TRANSCRIPT DRAWER ──
 let drawerOpen = false;
 function toggleDrawer() {
   drawerOpen = !drawerOpen;
@@ -1875,6 +1722,7 @@ function toggleDrawer() {
   chevron.className = drawerOpen ? 'ti ti-chevron-down td-chevron' : 'ti ti-chevron-right td-chevron';
 }
 
+// ── LIVE TRANSCRIPT STREAM ──
 const transcriptLines = [
   { speaker: 'James', text: '"if we ship Option B without a pilot we have no rollback plan"', flag: 'risk', flagStyle: 'background:var(--red-bg);color:var(--red-t)' },
   { speaker: 'Sarah', text: '"what about a 30-day grandfather period for enterprise instead of 12 months?"', flag: 'decision', flagStyle: 'background:var(--blue-bg);color:var(--blue-t)' },
@@ -1898,6 +1746,9 @@ setInterval(() => {
     count.textContent = n + ' signals captured';
   }
 }, 7000);
+
+// Select decision1 by default
+selectNode('decision1');
 </script>
 </body>
 </html>
