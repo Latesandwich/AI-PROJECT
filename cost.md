@@ -4,16 +4,21 @@ Stratis can make money as a B2B SaaS product for leadership, product, strategy, 
 
 ## 1. Core Business Model
 
-Use a subscription model priced per workspace and per active strategic project. This fits the product because the value is tied to team coordination, decision velocity, and the number of high-stakes initiatives being tracked.
+Use a subscription model priced by team size instead of per user. This is more appealing for Thailand because customers can understand the cost as one team package, and they will not feel punished for inviting more stakeholders into decision reviews.
+
+The base price should be in Thai baht. Usage limits should protect margins for AI, transcription, and storage.
 
 ### Recommended Pricing Tiers
 
-| Tier | Target Customer | Price | Includes |
+| Tier | Team Size | Price | Includes |
 |---|---:|---:|---|
-| Starter | Small leadership teams | $49/user/month | Strategy map, meeting capture, decisions panel, basic integrations |
-| Team | Product and GTM teams | $99/user/month | Advanced signals inbox, live transcript linking, document generation, Slack/Notion/Jira integrations |
-| Business | Mid-market companies | $199/user/month | AI decision scoring, risk prediction, admin controls, export, workspace analytics |
-| Enterprise | Large organizations | Custom | SSO, audit logs, custom retention, dedicated support, private deployment options |
+| Starter | Up to 3 people | ฿179/month | 1 workspace, 1 active project, basic strategy map, manual decision tracking |
+| Team | Up to 8 people | ฿499/month | 3 active projects, meeting capture, decisions panel, basic AI summaries |
+| Growth | Up to 20 people | ฿1,490/month | 10 active projects, signals inbox, document generation, Slack/Notion integrations |
+| Business | Up to 50 people | ฿3,990/month | Advanced AI analysis, risk scoring, Jira/Calendar integrations, exports, workspace analytics |
+| Enterprise | 50+ people | Custom | SSO, audit logs, custom retention, dedicated support, private deployment options |
+
+This structure makes the entry price low enough for Thai startups and small teams, while still giving room to grow revenue from larger teams and heavier usage.
 
 ## 2. Usage-Based Revenue
 
@@ -27,7 +32,7 @@ Add usage pricing for expensive AI and transcription features.
 | PDF/document export | Included for paid tiers, bulk export as enterprise feature |
 | Extra integrations | Included in higher tiers or sold as add-ons |
 
-Example: Team plan includes 100 AI credits and 50 transcription hours per month. Extra transcription could cost $1.50 to $3.00 per hour depending on provider cost and margin target.
+Example: Team plan includes 100 AI credits and 10 transcription hours per month. Extra transcription could cost ฿30 to ฿80 per hour depending on provider cost and margin target.
 
 ## 3. High-Value Add-Ons
 
@@ -49,8 +54,8 @@ Possible pricing:
 
 | Option | Price |
 |---|---:|
-| One-time device sale | $149 to $299 per device |
-| Hardware rental | $15 to $25 per device/month |
+| One-time device sale | ฿2,990 to ฿6,990 per device |
+| Hardware rental | ฿299 to ฿699 per device/month |
 | Enterprise room bundle | Custom contract |
 
 The device should not be the main profit center early. It should help differentiate the product and reduce meeting capture friction.
@@ -117,14 +122,15 @@ Initial paid offer:
 
 **Stratis Team Plan**
 
-- $99/user/month
-- Minimum 5 users
-- 50 transcription hours/month
+- ฿499/month
+- Up to 8 people
+- 3 active projects
+- 10 transcription hours/month
 - 100 AI credits/month
-- Slack, Notion, Google Calendar, and Jira integrations
+- Slack and Notion integrations
 - Living strategy document export
 
-This creates a starting contract value of about **$495/month** or **$5,940/year** per team before usage overages and add-ons.
+This creates a starting contract value of **฿499/month** or **฿5,988/year** per team before usage overages and add-ons. It is easier to sell locally than a per-user USD price and still gives a clear upgrade path.
 
 ## 11. Main Risks
 
@@ -141,8 +147,7 @@ This creates a starting contract value of about **$495/month** or **$5,940/year*
 The best path is:
 
 1. Launch as SaaS first.
-2. Charge per user with usage limits.
+2. Charge by team size with usage limits.
 3. Add AI and transcription overages.
 4. Use Pebble hardware as a premium differentiator.
 5. Move larger customers into annual Business and Enterprise contracts.
-
