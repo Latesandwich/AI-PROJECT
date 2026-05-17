@@ -18,7 +18,7 @@
 | `ti-layout-grid` | All projects | Navigate to **Projects panel** |
 | `ti-git-branch` | Strategy map | Navigate to **Strategy Map panel** for current project |
 | `ti-microphone` + pulsing red badge | In meeting now | Navigate to **Meeting panel** — live transcript & signal capture. Badge pulses while recording is active |
-| `ti-check-square` + red badge | Review decisions | Navigate to **Decisions panel** — open, blocked, and resolved decisions. Badge = unread count |
+| `ti-square-check` + red badge | Review decisions | Navigate to **Decisions panel** — open, blocked, and resolved decisions. Badge = unread count |
 | `ti-inbox` + red badge | Signals inbox | Navigate to **Inbox panel** — aggregated signals from all connected sources. Badge = unread count |
 | `ti-settings` | Settings & integrations | Navigate to **Integrations panel** |
 | User avatar `SK` | Sarah K. | Opens user profile / account settings *(not implemented in prototype)* |
